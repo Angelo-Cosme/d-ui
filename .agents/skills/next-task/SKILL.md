@@ -48,8 +48,8 @@ Among remaining issues, choose the **lowest DS-XXX**. Mention the assignee if so
 
 ## Start the work
 
-1. `git fetch origin main` and create `feature/DS-XXX-short-slug` from `origin/main` (never from a stale local `main`).
-2. Call `SetActiveBranch` for that branch.
+1. `git fetch origin main` and create `feature/DS-XXX-short-slug` from `origin/main` (never from a stale local `main`): `git checkout -b feature/DS-XXX-short-slug origin/main`.
+2. Cursor only: call `SetActiveBranch` for that branch. Claude Code and other clients have no equivalent tool; the `git checkout -b` above is enough.
 3. Implement against the issue **Périmètre**, **Critères d'acceptation**, and **Hors périmètre**.
 4. Follow `CONTRIBUTING.md`: English conventional commits, no `Co-authored-by`, WCAG 2.2 AA, Vitest + Testing Library + Storybook + MDX, changeset on public API.
 5. Documentation must match `Button.mdx` / `TextInput.mdx` / `TimeAgo.mdx`. Follow `.cursor/skills/storybook-docs/SKILL.md` and `.cursor/skills/docs-locale/SKILL.md` (French MDX via docs-i18n, bilingual canvas copy, ArgTypes, `componentSource`). Autodocs is not enough.

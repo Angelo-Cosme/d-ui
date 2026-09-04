@@ -101,8 +101,11 @@ export D_UI_COMMIT_REVIEW=1
 
 set +e
 if [ "$cli_kind" = "claude" ]; then
+  # Pin the model: print mode rejects some per-user defaults (e.g. fable[1m]),
+  # so the gate must not depend on each developer's ~/.claude/settings.json.
   perl -e 'alarm 180; exec @ARGV' -- \
     "$cli" -p "$prompt" \
+    --model "${D_UI_REVIEW_MODEL:-opus}" \
     --output-format text \
     --max-turns 12 \
     --allowedTools "Read,Grep,Glob" \
