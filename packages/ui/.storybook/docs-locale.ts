@@ -224,6 +224,12 @@ export const storyNameEn: Record<string, string> = {
   'Fichier refusé': 'Rejected file',
   'Galerie d’images': 'Image gallery',
   'Photo unique': 'Single photo',
+  Groupes: 'Groups',
+  'Icônes et raccourcis': 'Icons and shortcuts',
+  'Mots-clés': 'Keywords',
+  'Filtre personnalisé': 'Custom filter',
+  'Recherche distante': 'Remote search',
+  'Raccourci clavier': 'Keyboard shortcut',
 };
 
 const storyNameFr: Record<string, string> = Object.fromEntries(
@@ -2034,4 +2040,74 @@ export type TableDataDocsCopy = typeof tableDataFr;
 
 export function tableDataCopy(locale: DocsLocale): TableDataDocsCopy {
   return locale === 'en' ? tableDataEn : tableDataFr;
+}
+
+const commandMenuFr = {
+  open: 'Ouvrir la palette',
+  label: 'Palette de commandes',
+  placeholder: 'Rechercher une commande',
+  empty: 'Aucun résultat',
+  emptyQuery: (query: string) => `Aucune commande pour « ${query} »`,
+  loading: 'Chargement des commandes',
+  lastCommand: 'Dernière commande :',
+  none: 'aucune',
+  shortcutHint: '⌘K (Ctrl+K) ouvre et ferme aussi la palette.',
+  navigation: 'Navigation',
+  actions: 'Actions',
+  account: 'Compte',
+  home: 'Accueil',
+  courses: 'Cours',
+  homework: 'Devoirs',
+  newAssignment: 'Nouveau devoir',
+  newAssignmentDesc: 'Créer un devoir vide',
+  newAssignmentKeywords: ['créer', 'ajouter'],
+  newAssignmentShortcut: '⌘N',
+  importCourse: 'Importer un cours',
+  importCourseDesc: 'Depuis un fichier SCORM',
+  importShortcut: '⌘I',
+  archive: 'Archiver le cours',
+  archiveDesc: 'Indisponible pendant la correction',
+  theme: 'Changer de thème',
+  themeDesc: 'Clair, sombre ou système',
+  themeShortcut: '⌘T',
+  profile: 'Mon profil',
+  logout: 'Se déconnecter',
+};
+
+const commandMenuEn = {
+  open: 'Open the palette',
+  label: 'Command palette',
+  placeholder: 'Search a command',
+  empty: 'No results',
+  emptyQuery: (query: string) => `No command for “${query}”`,
+  loading: 'Loading commands',
+  lastCommand: 'Last command:',
+  none: 'none',
+  shortcutHint: '⌘K (Ctrl+K) also opens and closes the palette.',
+  navigation: 'Navigation',
+  actions: 'Actions',
+  account: 'Account',
+  home: 'Home',
+  courses: 'Courses',
+  homework: 'Assignments',
+  newAssignment: 'New assignment',
+  newAssignmentDesc: 'Create an empty assignment',
+  newAssignmentKeywords: ['create', 'add'],
+  newAssignmentShortcut: '⌘N',
+  importCourse: 'Import a course',
+  importCourseDesc: 'From a SCORM file',
+  importShortcut: '⌘I',
+  archive: 'Archive the course',
+  archiveDesc: 'Unavailable while marking',
+  theme: 'Switch theme',
+  themeDesc: 'Light, dark, or system',
+  themeShortcut: '⌘T',
+  profile: 'My profile',
+  logout: 'Sign out',
+};
+
+export type CommandMenuDocsCopy = typeof commandMenuFr;
+
+export function commandMenuCopy(locale: DocsLocale): CommandMenuDocsCopy {
+  return locale === 'en' ? commandMenuEn : commandMenuFr;
 }

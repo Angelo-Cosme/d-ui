@@ -149,6 +149,14 @@ export type {
   DialogHeaderProps,
   DialogTitleProps,
 } from './components/Dialog/DialogParts';
+export { CommandMenu } from './components/CommandMenu/CommandMenu';
+export type { CommandMenuProps } from './components/CommandMenu/CommandMenu';
+export type {
+  CommandMenuEntry,
+  CommandMenuFilter,
+  CommandMenuGroup,
+  CommandMenuItem,
+} from './components/CommandMenu/commandMenuItems';
 export { Divider } from './components/Divider/Divider';
 export type { DividerOrientation, DividerProps } from './components/Divider/Divider';
 export { Field } from './components/Field/Field';

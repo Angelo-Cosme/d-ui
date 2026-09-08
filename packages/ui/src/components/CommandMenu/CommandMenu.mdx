@@ -1,0 +1,113 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import { H2, H3, P, Ul } from '../../../.storybook/docs-i18n';
+import * as CommandMenuStories from './CommandMenu.stories';
+
+<Meta of={CommandMenuStories} />
+
+# CommandMenu
+
+<P k="commandMenu.intro" />
+
+<P k="chrome.examplesFollow" />
+
+<Canvas of={CommandMenuStories.Default} />
+
+<H2 k="commandMenu.groups" />
+
+<P k="commandMenu.useGroups" />
+
+<Canvas of={CommandMenuStories.Groups} />
+
+<H2 k="commandMenu.decorations" />
+
+<P k="commandMenu.useDecorations" />
+
+<Canvas of={CommandMenuStories.Decorated} />
+
+<H3 k="commandMenu.disabledItems" />
+
+<P k="commandMenu.useDisabledItems" />
+
+<Canvas of={CommandMenuStories.DisabledItems} />
+
+<H2 k="commandMenu.filtering" />
+
+<P k="commandMenu.useFiltering" />
+
+<Canvas of={CommandMenuStories.Keywords} />
+
+<H3 k="commandMenu.customFilter" />
+
+<P k="commandMenu.useCustomFilter" />
+
+<Canvas of={CommandMenuStories.CustomFilter} />
+
+<H3 k="commandMenu.remote" />
+
+<P k="commandMenu.useRemote" />
+
+<Canvas of={CommandMenuStories.RemoteSearch} />
+
+<H2 k="commandMenu.states" />
+
+<H3 k="commandMenu.empty" />
+
+<P k="commandMenu.useEmpty" />
+
+<Canvas of={CommandMenuStories.Empty} />
+
+<H3 k="commandMenu.loading" />
+
+<P k="commandMenu.useLoading" />
+
+<Canvas of={CommandMenuStories.Loading} />
+
+<H2 k="commandMenu.shortcut" />
+
+<P k="commandMenu.useShortcut" />
+
+<Canvas of={CommandMenuStories.KeyboardShortcut} />
+
+<P k="chrome.themeLang" />
+
+<H2 k="chrome.accessibility" />
+
+<P k="commandMenu.a11yBody" />
+
+<P k="commandMenu.a11yKeys" />
+
+<H3 k="chrome.do" />
+
+<Ul items={['commandMenu.doTrigger', 'commandMenu.doLabel', 'commandMenu.doKeywords']} />
+
+<H3 k="chrome.dont" />
+
+<Ul
+  items={[
+    'commandMenu.dontRouter',
+    'commandMenu.dontShortcutOnly',
+    'commandMenu.dontRegistry',
+  ]}
+/>
+
+<H2 k="chrome.properties" />
+
+<P k="commandMenu.propsBody" />
+
+<ArgTypes
+  of={CommandMenuStories}
+  include={[
+    'open',
+    'onOpenChange',
+    'items',
+    'onSelect',
+    'label',
+    'placeholder',
+    'emptyMessage',
+    'loading',
+    'loadingMessage',
+    'filter',
+    'onQueryChange',
+    'className',
+  ]}
+/>
