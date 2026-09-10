@@ -204,6 +204,17 @@ export const storyNameEn: Record<string, string> = {
   'Pied de carte': 'Card footer',
   'Numéros centrés': 'Centered page numbers',
   'Pied de carte simple': 'Simple card footer',
+  Recherche: 'Search',
+  Filtres: 'Filtering',
+  Tri: 'Sorting',
+  'Colonne non triable': 'Non-sortable column',
+  'Sélection de lignes': 'Selecting rows',
+  'Lignes verrouillées': 'Locked rows',
+  Export: 'Export',
+  'Avec onglets': 'With tabs',
+  Pagination: 'Pagination',
+  'Colonnes et lignes': 'Columns and rows',
+  'Aucun résultat': 'No results',
 };
 
 const storyNameFr: Record<string, string> = Object.fromEntries(
@@ -1878,4 +1889,86 @@ export type TableDocsCopy = typeof tableFr;
 
 export function tableCopy(locale: DocsLocale): TableDocsCopy {
   return locale === 'en' ? tableEn : tableFr;
+}
+
+const tableDataFr = {
+  caption: 'Commandes du trimestre',
+  search: 'Rechercher une commande',
+  searchPlaceholder: 'Client, référence…',
+  export: 'Exporter la sélection',
+  exported: (count: number) => `${count} ligne(s) prêtes à exporter`,
+  status: 'Statut',
+  reference: 'Référence',
+  client: 'Client',
+  amount: 'Montant',
+  date: 'Date',
+  actions: 'Actions',
+  rowActions: 'Actions de la ligne',
+  edit: 'Modifier',
+  duplicate: 'Dupliquer',
+  archive: 'Archiver',
+  paid: 'Payée',
+  pending: 'En attente',
+  late: 'En retard',
+  draft: 'Brouillon',
+  selectAll: 'Tout sélectionner',
+  selectRow: (label: string) => `Sélectionner ${label}`,
+  sortBy: 'Trier cette colonne',
+  locked: 'Ligne verrouillée — clôturée comptablement',
+  results: (count: number) => `${count} résultat(s)`,
+  empty: 'Aucune commande ne correspond',
+  emptyTitle: 'Aucune commande',
+  emptyDescription: 'Les commandes apparaîtront ici, ou élargissez la recherche.',
+  onlyLate: 'En retard seulement',
+  all: 'Toutes',
+  showing: (from: number, to: number, total: number) => `${from} à ${to} sur ${total}`,
+  previous: 'Précédent',
+  next: 'Suivant',
+  tabAll: 'Toutes',
+  tabLate: 'En retard',
+  tabPaid: 'Payées',
+};
+
+const tableDataEn = {
+  caption: 'Orders this quarter',
+  search: 'Search an order',
+  searchPlaceholder: 'Customer, reference…',
+  export: 'Export the selection',
+  exported: (count: number) => `${count} row(s) ready to export`,
+  status: 'Status',
+  reference: 'Reference',
+  client: 'Customer',
+  amount: 'Amount',
+  date: 'Date',
+  actions: 'Actions',
+  rowActions: 'Row actions',
+  edit: 'Edit',
+  duplicate: 'Duplicate',
+  archive: 'Archive',
+  paid: 'Paid',
+  pending: 'Pending',
+  late: 'Late',
+  draft: 'Draft',
+  selectAll: 'Select all rows',
+  selectRow: (label: string) => `Select ${label}`,
+  sortBy: 'Sort this column',
+  locked: 'Locked row — closed in accounting',
+  results: (count: number) => `${count} result(s)`,
+  empty: 'No order matches',
+  emptyTitle: 'No orders',
+  emptyDescription: 'Orders will appear here, or widen the search.',
+  onlyLate: 'Late only',
+  all: 'All',
+  showing: (from: number, to: number, total: number) => `${from} to ${to} of ${total}`,
+  previous: 'Previous',
+  next: 'Next',
+  tabAll: 'All',
+  tabLate: 'Late',
+  tabPaid: 'Paid',
+};
+
+export type TableDataDocsCopy = typeof tableDataFr;
+
+export function tableDataCopy(locale: DocsLocale): TableDataDocsCopy {
+  return locale === 'en' ? tableDataEn : tableDataFr;
 }

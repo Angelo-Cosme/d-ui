@@ -1241,6 +1241,11 @@ export const paginationArgTypes = {
     control: 'boolean' as const,
     description: 'Désactive tous les boutons.',
   },
+  children: {
+    control: { disable: true },
+    description:
+      'Disposition libre : composez `PaginationPrevious`, `PaginationPages`, `PaginationNext` et `PaginationStatus`. Sans `children`, le rendu par défaut (précédent, numéros, suivant) est conservé.',
+  },
 };
 
 export const menuArgTypes = {
@@ -1620,7 +1625,12 @@ export const tableArgTypes = {
   caption: {
     control: 'text' as const,
     description:
-      'Légende visible (`<caption>`). Nomme le tableau et, s’il déborde, la région défilable (clavier). Préférez `TableCaption` pour du contenu riche.',
+      'Légende visible (`<caption>`). Nomme le tableau et, s’il déborde, la région défilable (clavier). En mode données, elle est obligatoire. Préférez `TableCaption` pour du contenu riche en mode parties.',
+  },
+  hideCaption: {
+    control: 'boolean' as const,
+    description:
+      'Masque la légende à l’écran. Elle reste lue, et continue de nommer la zone défilable. Mode données.',
   },
   stickyHeader: {
     control: 'boolean' as const,
@@ -1633,9 +1643,92 @@ export const tableArgTypes = {
     description:
       'Densité des cellules. `sm` si l’espace est contraint, `md` par défaut, `lg` pour les vues aérées.',
   },
+  columns: {
+    control: { disable: true },
+    description:
+      'Mode données. Colonnes `{ id, header, value, cell?, sortable?, align?, numeric? }`. `value` est la donnée brute — c’est elle qu’on trie et qu’on cherche ; `cell` n’est que le rendu.',
+  },
+  rows: {
+    control: { disable: true },
+    description:
+      'Mode données. Les lignes, dans leur ordre d’origine. La table n’y touche pas.',
+  },
+  rowId: {
+    control: { disable: true },
+    description:
+      'Mode données. Clé stable d’une ligne. Jamais l’index : le tri le déplace, et React réutiliserait la mauvaise ligne.',
+  },
+  sort: {
+    control: { disable: true },
+    description:
+      'Tri contrôlé `{ columnId, direction }` ou `null`. Omis, la table gère son propre tri à partir de `defaultSort`.',
+  },
+  onSortChange: {
+    control: { disable: true },
+    description:
+      'Reçoit le tri suivant : ascendant, descendant, puis `null` — trois clics ramènent à l’ordre d’origine.',
+  },
+  search: {
+    control: 'text' as const,
+    description:
+      'Recherche contrôlée. Omise, la barre d’outils la pilote via `setSearch`. Insensible à la casse et aux accents.',
+  },
+  selectable: {
+    control: 'boolean' as const,
+    description:
+      'Ajoute la colonne de cases à cocher. Chaque case est nommée par `rowLabel`, l’en-tête passe en `mixed` en sélection partielle.',
+  },
+  selectedIds: {
+    control: { disable: true },
+    description: 'Sélection contrôlée. Omise, la table garde la sienne.',
+  },
+  rowLabel: {
+    control: { disable: true },
+    description:
+      'Nom lisible d’une ligne, pour nommer sa case. Sans lui, la case est nommée par l’identifiant — illisible à l’oral.',
+  },
+  isRowLocked: {
+    control: { disable: true },
+    description:
+      'Ligne verrouillée : pas de case, un cadenas, et un texte masqué qui dit pourquoi. Exclue de « tout cocher ».',
+  },
+  pageSize: {
+    control: 'number' as const,
+    description:
+      'Pagine la table et rend une `Pagination` sous elle. Omis, toutes les lignes sont rendues.',
+  },
+  toolbar: {
+    control: { disable: true },
+    description:
+      'Barre au-dessus de la table. En fonction, elle reçoit `{ rows, search, setSearch, selectedIds }` : de quoi chercher, filtrer et exporter sans que la table fabrique de fichier.',
+  },
+  footer: {
+    control: { disable: true },
+    description: 'Contenu sous la table, à la place de la pagination automatique.',
+  },
+  loading: {
+    control: 'boolean' as const,
+    description:
+      'Remplace le corps par un squelette (`SkeletonText`, `aria-hidden`). Le `<table>` porte `aria-busy`. Pas d’annonce « 0 résultats », pas de pagination.',
+  },
+  empty: {
+    control: { disable: true },
+    description:
+      'Corps vide. Composez `EmptyState` ou `ErrorState`. Omis : `labels.empty` en paragraphe. `Table` n’importe pas le métier du vide.',
+  },
+  locale: {
+    control: 'text' as const,
+    description:
+      'Locale de comparaison du tri (`localeCompare`). Défaut : celle de l’exécution.',
+  },
+  labels: {
+    control: { disable: true },
+    description:
+      'Chaînes annoncées (`selectAll`, `selectRow`, `sortBy`, `locked`, `results`, `empty`). Sans elles, fallback anglais : le composant ne devine pas la langue de la page.',
+  },
   className: {
     ...classNameArgType,
     description:
-      'Classes du conteneur de défilement (ex. `max-h-56`, `max-w-md`). Fusionnées en dernier avec `cx`.',
+      'Classes du conteneur de défilement (`max-h-56`, `max-w-md`) — y compris en mode données. La barre et la pagination restent hors du défilement. Fusionnées en dernier avec `cx`.',
   },
 };

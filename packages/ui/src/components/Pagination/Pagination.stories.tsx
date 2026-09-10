@@ -4,8 +4,7 @@ import { paginationArgTypes } from '../../../.storybook/arg-types';
 import {
   docsLocale,
   paginationCopy,
-  tableCopy,
-  type DocsLocale,
+  tableDataCopy,
 } from '../../../.storybook/docs-locale';
 import { componentSource, componentSourceFn } from '../../../.storybook/docs-source';
 import { Card, CardBody, CardFooter } from '../Card/Card';
@@ -161,22 +160,16 @@ export const Sizes: Story = {
  * compositions des mêmes sous-composants dans un `CardFooter`. Le `nav` nommé
  * et l'état restent portés par `Pagination`.
  */
-function rangeLabel(locale: DocsLocale, from: number, to: number, total: number): string {
-  return locale === 'en'
-    ? `${from} to ${to} of ${total}`
-    : `${from} à ${to} sur ${total}`;
-}
-
 function FooterShell({
   children,
   copy,
-  caption,
+  table,
   initial = 3,
   pageCount = 8,
 }: {
   children: (page: number, pageCount: number) => ReactNode;
   copy: ReturnType<typeof paginationCopy>;
-  caption: string;
+  table: ReturnType<typeof tableDataCopy>;
   initial?: number;
   pageCount?: number;
 }) {
@@ -184,7 +177,7 @@ function FooterShell({
   return (
     <Card className="max-w-2xl">
       <CardBody>
-        <Text tone="muted">{caption}</Text>
+        <Text tone="muted">{table.caption}</Text>
       </CardBody>
       <CardFooter className="justify-between gap-4">
         <Pagination
@@ -224,7 +217,7 @@ export const CardFooterPages: Story = {
   render: (_, { globals }) => {
     const copy = paginationCopy(docsLocale(globals.locale));
     return (
-      <FooterShell copy={copy} caption={tableCopy(docsLocale(globals.locale)).caption}>
+      <FooterShell copy={copy} table={tableDataCopy(docsLocale(globals.locale))}>
         {() => (
           <div className="flex w-full items-center justify-between gap-4">
             <PaginationPrevious showLabel />
@@ -251,7 +244,7 @@ export const CenteredPages: Story = {
   render: (_, { globals }) => {
     const copy = paginationCopy(docsLocale(globals.locale));
     return (
-      <FooterShell copy={copy} caption={tableCopy(docsLocale(globals.locale)).caption}>
+      <FooterShell copy={copy} table={tableDataCopy(docsLocale(globals.locale))}>
         {() => (
           <div className="flex w-full items-center">
             <PaginationPrevious showLabel />
@@ -278,15 +271,15 @@ export const SimpleCardFooter: Story = {
 </Pagination>`,
   ),
   render: (_, { globals }) => {
-    const locale = docsLocale(globals.locale);
-    const copy = paginationCopy(locale);
+    const copy = paginationCopy(docsLocale(globals.locale));
+    const table = tableDataCopy(docsLocale(globals.locale));
     return (
-      <FooterShell copy={copy} caption={tableCopy(locale).caption}>
+      <FooterShell copy={copy} table={table}>
         {(page, pageCount) => (
           <div className="flex w-full items-center justify-between gap-4">
             {/* Le composant ne fabrique pas ce texte : il ignore le total réel. */}
             <PaginationStatus>
-              {rangeLabel(locale, (page - 1) * 10 + 1, page * 10, pageCount * 10)}
+              {table.showing((page - 1) * 10 + 1, page * 10, pageCount * 10)}
             </PaginationStatus>
             <div className="flex gap-2">
               <PaginationPrevious showLabel />

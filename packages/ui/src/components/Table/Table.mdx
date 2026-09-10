@@ -1,5 +1,5 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
-import { H2, H3, P, Ul } from '../../../.storybook/docs-i18n';
+import { H2, H3, P, Ul, Table } from '../../../.storybook/docs-i18n';
 import * as TableStories from './Table.stories';
 
 <Meta of={TableStories} />
@@ -66,17 +66,119 @@ import * as TableStories from './Table.stories';
 
 <Canvas of={TableStories.Sizes} />
 
+<H2 k="table.data" />
+
+<P k="table.dataBody" />
+
+<Canvas of={TableStories.DataColumns} />
+
+<Table
+  headers={['table.colKey', 'table.colRole']}
+  rows={[
+    ['table.keyId', 'table.keyIdRole'],
+    ['table.keyValue', 'table.keyValueRole'],
+    ['table.keyCell', 'table.keyCellRole'],
+    ['table.keySortable', 'table.keySortableRole'],
+  ]}
+/>
+
+<H2 k="table.state" />
+
+<P k="table.stateBody" />
+
+<H2 k="table.sorting" />
+
+<P k="table.useSorting" />
+
+<Canvas of={TableStories.Sorting} />
+
+<H3 k="table.nonSortable" />
+
+<P k="table.useNonSortable" />
+
+<Canvas of={TableStories.NonSortable} />
+
+<H2 k="table.searching" />
+
+<P k="table.useSearching" />
+
+<Canvas of={TableStories.Search} />
+
+<H3 k="table.filtering" />
+
+<P k="table.useFiltering" />
+
+<Canvas of={TableStories.Filtering} />
+
+<H2 k="table.selection" />
+
+<P k="table.useSelection" />
+
+<Canvas of={TableStories.SelectingRows} />
+
+<H3 k="table.locked" />
+
+<P k="table.useLocked" />
+
+<Canvas of={TableStories.LockedRows} />
+
+<H2 k="table.exporting" />
+
+<P k="table.useExporting" />
+
+<Canvas of={TableStories.Export} />
+
+<H2 k="table.paging" />
+
+<P k="table.usePaging" />
+
+<Canvas of={TableStories.TablePagination} />
+
+<H2 k="table.loading" />
+
+<P k="table.loadingBody" />
+
+<Canvas of={TableStories.Loading} />
+
+<H2 k="table.composed" />
+
+<P k="table.useComposed" />
+
+<Canvas of={TableStories.WithTabs} />
+
+<Canvas of={TableStories.EmptyResults} />
+
 <H2 k="chrome.accessibility" />
 
 <P k="table.a11yBody" />
 
+<P k="table.a11yKeys" />
+
 <H3 k="chrome.do" />
 
-<Ul items={['table.doCaption', 'table.doNumeric', 'table.doEmpty']} />
+<Ul
+  items={[
+    'table.doCaption',
+    'table.doNumeric',
+    'table.doEmpty',
+    'table.doLoading',
+    'table.doValue',
+    'table.doRowLabel',
+  ]}
+/>
 
 <H3 k="chrome.dont" />
 
-<Ul items={['table.dontDiv', 'table.dontSort', 'table.dontLms']} />
+<Ul
+  items={[
+    'table.dontDiv',
+    'table.dontSort',
+    'table.dontLms',
+    'table.dontGrid',
+    'table.dontIndex',
+    'table.dontColor',
+  ]}
+/>
 
 <P k="chrome.themeLang" />
 
@@ -84,4 +186,27 @@ import * as TableStories from './Table.stories';
 
 <P k="table.props" />
 
-<ArgTypes of={TableStories} include={['caption', 'stickyHeader', 'size', 'className']} />
+<ArgTypes
+  of={TableStories}
+  include={[
+    'caption',
+    'hideCaption',
+    'stickyHeader',
+    'size',
+    'columns',
+    'rows',
+    'rowId',
+    'sort',
+    'search',
+    'selectable',
+    'selectedIds',
+    'rowLabel',
+    'isRowLocked',
+    'pageSize',
+    'toolbar',
+    'footer',
+    'loading',
+    'empty',
+    'className',
+  ]}
+/>

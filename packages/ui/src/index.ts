@@ -114,13 +114,21 @@ export type {
   TableBodyProps,
   TableCaptionProps,
   TableCellProps,
+  TableColumn,
+  TableDataProps,
   TableEmptyProps,
   TableFooterProps,
+  TableFrameProps,
   TableHeadProps,
   TableHeaderProps,
+  TableLabels,
   TableProps,
   TableRowProps,
   TableSize,
+  TableSort,
+  TableToolbarApi,
+  SortDirection,
+  SortValue,
 } from './components/Table/Table';
 export { Dialog } from './components/Dialog/Dialog';
 export type { DialogProps, DialogRadius, DialogSize } from './components/Dialog/Dialog';
@@ -328,6 +336,17 @@ export type {
   BreadcrumbProps,
   BreadcrumbSize,
 } from './components/Breadcrumb/Breadcrumb';
+export {
+  PaginationNext,
+  PaginationPages,
+  PaginationPrevious,
+  PaginationStatus,
+} from './components/Pagination/PaginationParts';
+export type {
+  PaginationPagesProps,
+  PaginationStatusProps,
+  PaginationStepProps,
+} from './components/Pagination/PaginationParts';
 export { Pagination } from './components/Pagination/Pagination';
 export type { PaginationProps, PaginationSize } from './components/Pagination/Pagination';
 export {

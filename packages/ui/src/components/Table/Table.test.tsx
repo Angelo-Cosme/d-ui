@@ -157,6 +157,39 @@ describe('Table', () => {
     );
   });
 
+  it('accepts every documented align, not just center', () => {
+    /*
+     * `align` est aussi un attribut HTML natif, que React type `"center"`. En
+     * intersection avec `TableAlign`, il ne restait que ce cran : `start` et
+     * `end` ne compilaient pas, alors que la doc les annonce. Ce test échoue à
+     * la compilation si l'`Omit` disparaît, et au rendu si la classe change.
+     */
+    render(
+      <Table caption="Notes">
+        <TableHeader>
+          <TableRow>
+            <TableHead align="start">Élève</TableHead>
+            <TableHead align="end">Moyenne</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell align="start">Ada</TableCell>
+            <TableCell align="end">18,5</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>,
+    );
+    expect(screen.getByRole('columnheader', { name: 'Élève' }).className).toContain(
+      'text-start',
+    );
+    expect(screen.getByRole('columnheader', { name: 'Moyenne' }).className).toContain(
+      'text-end',
+    );
+    expect(screen.getByRole('cell', { name: 'Ada' }).className).toContain('text-start');
+    expect(screen.getByRole('cell', { name: '18,5' }).className).toContain('text-end');
+  });
+
   it('renders a footer row for totals', () => {
     const { container } = render(<Grades footer numeric />);
     expect(container.querySelector('tfoot')).toBeInTheDocument();
