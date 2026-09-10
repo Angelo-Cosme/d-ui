@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { VisuallyHidden } from '../../a11y/VisuallyHidden';
 import { IconButton } from '../Button/IconButton';
+import { ChevronLeft, ChevronRight } from '../../icons/Chevron';
 import { cx } from '../../lib/cx';
 import {
   addDays,
@@ -98,34 +99,6 @@ const sizeClass: Record<CalendarSize, { day: string; weekday: string; title: str
   md: { day: 'h-10 w-10 text-base', weekday: 'h-10 w-10 text-sm', title: 'text-base' },
   lg: { day: 'h-12 w-12 text-lg', weekday: 'h-12 w-12 text-base', title: 'text-lg' },
 };
-
-function ChevronLeft() {
-  return (
-    <svg width="1em" height="1em" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path
-        d="M10 4L6 8l4 4"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function ChevronRight() {
-  return (
-    <svg width="1em" height="1em" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path
-        d="M6 4l4 4-4 4"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 function clampMonthCount(value: number): number {
   if (Number.isNaN(value)) return 1;

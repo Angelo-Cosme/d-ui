@@ -2552,8 +2552,8 @@ export const docsCopy = {
   },
   pagination: {
     intro: {
-      fr: '`Pagination` est **contrôlée** : `page` / `onPageChange`. Pas de défilement infini ni de routeur. Les pages trop nombreuses sont collapsées avec une ellipse.',
-      en: '`Pagination` is **controlled**: `page` / `onPageChange`. No infinite scroll and no router. Long ranges collapse with an ellipsis.',
+      fr: '`Pagination` est **contrôlée** : `page` / `onPageChange`. Pas de défilement infini ni de routeur. Les pages trop nombreuses sont collapsées avec une ellipse. Sans `children`, le rendu par défaut (précédent, numéros, suivant) tient dans une seule liste. Avec `children`, composez `PaginationPrevious`, `PaginationPages`, `PaginationNext` et `PaginationStatus`.',
+      en: '`Pagination` is **controlled**: `page` / `onPageChange`. No infinite scroll and no router. Long ranges collapse with an ellipsis. Without `children`, the default rendering (previous, numbers, next) stays in a single list. With `children`, compose `PaginationPrevious`, `PaginationPages`, `PaginationNext`, and `PaginationStatus`.',
     },
     many: { fr: 'Beaucoup de pages', en: 'Many pages' },
     manyBody: {
@@ -2580,9 +2580,21 @@ export const docsCopy = {
       fr: '`usePathname` ou `href` Next.js dans le composant',
       en: '`usePathname` or Next.js `href`s inside the component',
     },
+    compose: { fr: 'Composition', en: 'Composition' },
+    composeBody: {
+      fr: 'Les sous-composants lisent le même contexte : un seul `nav` nommé, une seule page courante. Utile dans un `CardFooter` — numéros centrés, ou statut + précédent / suivant sans les numéros.',
+      en: 'The parts read the same context: one named `nav`, one current page. Useful in a `CardFooter` — centered numbers, or status + previous / next without the numbers.',
+    },
+    cardFooter: { fr: 'Pied de carte', en: 'Card footer' },
+    centered: { fr: 'Numéros centrés', en: 'Centered page numbers' },
+    simpleFooter: { fr: 'Pied de carte simple', en: 'Simple card footer' },
+    useSimpleFooter: {
+      fr: '`PaginationStatus` n’invente pas le texte « 1 à 10 sur 97 » : la page connaît le total, le composant non.',
+      en: '`PaginationStatus` does not invent the “1 to 10 of 97” text: the page knows the total, the component does not.',
+    },
     props: {
-      fr: '`page` (1-indexée) et `pageCount` sont obligatoires. `onPageChange` reçoit le numéro demandé. `pageLabel` personnalise le nom accessible.',
-      en: '`page` (1-based) and `pageCount` are required. `onPageChange` receives the requested number. `pageLabel` customises the accessible name.',
+      fr: '`page` (1-indexée) et `pageCount` sont obligatoires. `onPageChange` reçoit le numéro demandé. `pageLabel` personnalise le nom accessible. `children` ouvre la composition.',
+      en: '`page` (1-based) and `pageCount` are required. `onPageChange` receives the requested number. `pageLabel` customises the accessible name. `children` opens composition.',
     },
   },
   menu: {
@@ -3280,8 +3292,8 @@ export const docsCopy = {
   },
   table: {
     intro: {
-      fr: '`Table` est un **tableau sémantique** (`<table>`, `<thead>`, `<th scope>`) pour des données simples. Ce n’est pas une grille de `div`, ni un `span` habillé. Les parties (`TableHeader`, `TableBody`, `TableRow`, `TableHead`, `TableCell`, `TableCaption`, `TableEmpty`, `TableFooter`) partagent densité, alignement numérique et en-tête collant. Tri, filtre, sélection : **Data Table** (DS-042).',
-      en: '`Table` is a **semantic table** (`<table>`, `<thead>`, `<th scope>`) for simple data. It is not a `div` grid, and not a dressed-up `span`. The parts (`TableHeader`, `TableBody`, `TableRow`, `TableHead`, `TableCell`, `TableCaption`, `TableEmpty`, `TableFooter`) share density, numeric alignment, and a sticky header. Sort, filter, selection: **Data Table** (DS-042).',
+      fr: '`Table` est un **tableau sémantique** (`<table>`, `<thead>`, `<th scope>`). Ce n’est pas une grille de `div`, ni un `span` habillé. Deux façons de le remplir : les **parties** (`TableHeader`, `TableBody`, `TableRow`, …) pour un tableau écrit à la main, ou **`columns` / `rows` / `rowId`** pour le tri, la recherche, la sélection et la pagination — le même `<table>`, pas un second composant.',
+      en: '`Table` is a **semantic table** (`<table>`, `<thead>`, `<th scope>`). It is not a `div` grid, and not a dressed-up `span`. Two ways to fill it: the **parts** (`TableHeader`, `TableBody`, `TableRow`, …) for a hand-written table, or **`columns` / `rows` / `rowId`** for sort, search, selection, and pagination — the same `<table>`, not a second component.',
     },
     numeric: { fr: 'Alignement numérique', en: 'Numeric alignment' },
     numericBody: {
@@ -3305,8 +3317,8 @@ export const docsCopy = {
     },
     empty: { fr: 'État vide', en: 'Empty state' },
     emptyBody: {
-      fr: '`TableEmpty` est une ligne qui couvre `colSpan` colonnes. Composez `EmptyState` (titre, description, actions) — `Table` n’importe pas le vide. Le tableau garde sa légende et ses en-têtes : l’utilisateur sait quelle grille est vide.',
-      en: '`TableEmpty` is a row that spans `colSpan` columns. Compose `EmptyState` (title, description, actions) — `Table` does not import emptiness. The table keeps its caption and headers: the user still knows which grid is empty.',
+      fr: '`TableEmpty` est une ligne qui couvre `colSpan` colonnes. En mode données, `empty` est ce slot : composez `EmptyState` ou `ErrorState` — `Table` n’importe pas le métier du vide. Omis, `labels.empty` suffit. Le tableau garde sa légende et ses en-têtes : l’utilisateur sait quelle grille est vide.',
+      en: '`TableEmpty` is a row that spans `colSpan` columns. In data mode, `empty` is that slot: compose `EmptyState` or `ErrorState` — `Table` does not import emptiness. When omitted, `labels.empty` is enough. The table keeps its caption and headers: the user still knows which grid is empty.',
     },
     sticky: { fr: 'En-tête collant', en: 'Sticky header' },
     stickyBody: {
@@ -3324,12 +3336,98 @@ export const docsCopy = {
       en: '`TableHead` outside `TableHeader` sets `scope="row"`: the first cell names the row (day, category). In the header, `scope="col"` is automatic. Override `scope` only when HTML requires it.',
     },
     sizesBody: {
-      fr: '`size` (`sm` / `md` / `lg`) règle le padding et la taille de texte des cellules. `md` par défaut. La densité descend sur toutes les parties via le contexte.',
-      en: '`size` (`sm` / `md` / `lg`) sets cell padding and text size. `md` by default. Density flows to every part through context.',
+      fr: '`size` (`sm` / `md` / `lg`) règle le padding et la taille de texte des cellules. `md` par défaut. La densité descend sur toutes les parties via le contexte, y compris en mode données.',
+      en: '`size` (`sm` / `md` / `lg`) sets cell padding and text size. `md` by default. Density flows to every part through context, data mode included.',
+    },
+    data: { fr: 'Colonnes et lignes', en: 'Columns and rows' },
+    dataBody: {
+      fr: 'Passez `columns`, `rows` et `rowId` : `Table` pose le tri, la recherche, la sélection et la pagination sur le même `<table>` sémantique. Une colonne sépare **la donnée** (`value`) de **son rendu** (`cell`) : on trie un montant sur son nombre, on cherche un statut sur son mot.',
+      en: 'Pass `columns`, `rows`, and `rowId`: `Table` lays sort, search, selection, and pagination on the same semantic `<table>`. A column separates **the data** (`value`) from **its rendering** (`cell`): an amount sorts on its number, a status is searched by its word.',
+    },
+    colKey: { fr: 'Clé', en: 'Key' },
+    colRole: { fr: 'Rôle', en: 'Role' },
+    keyId: { fr: '`id`', en: '`id`' },
+    keyIdRole: {
+      fr: 'Identifiant stable de la colonne, et clé de tri.',
+      en: 'Stable column identifier, and sort key.',
+    },
+    keyValue: { fr: '`value`', en: '`value`' },
+    keyValueRole: {
+      fr: 'La donnée brute : ce qui est trié et cherché.',
+      en: 'The raw data: what gets sorted and searched.',
+    },
+    keyCell: { fr: '`cell`', en: '`cell`' },
+    keyCellRole: {
+      fr: 'Le rendu. Absent, `value` est affichée telle quelle.',
+      en: 'The rendering. When absent, `value` is shown as is.',
+    },
+    keySortable: { fr: '`sortable`', en: '`sortable`' },
+    keySortableRole: {
+      fr: '`false` retire le bouton de tri de l’en-tête.',
+      en: '`false` removes the sort button from the header.',
+    },
+    state: { fr: 'Qui tient l’état', en: 'Who owns the state' },
+    stateBody: {
+      fr: 'Tri, recherche, page et sélection acceptent chacun une prop contrôlée et retombent sinon sur un état interne — la même mécanique que `Tabs`.',
+      en: 'Sort, search, page, and selection each take a controlled prop and otherwise fall back to internal state — the same mechanism as `Tabs`.',
+    },
+    sorting: { fr: 'Tri', en: 'Sorting' },
+    useSorting: {
+      fr: 'L’en-tête triable est un vrai `<button>`, et trois clics font le tour : ascendant, descendant, plus de tri. `aria-sort` n’est posé que sur la colonne triée. Les cellules vides se rangent **toujours** en dernier.',
+      en: 'A sortable header is a real `<button>`, and three clicks come full circle: ascending, descending, no sort. `aria-sort` is set only on the sorted column. Empty cells **always** sort last.',
+    },
+    nonSortable: { fr: 'Colonne non triable', en: 'Non-sortable column' },
+    useNonSortable: {
+      fr: '`sortable: false` laisse l’en-tête en simple `th` : ni bouton, ni `aria-sort`. Une colonne d’actions n’a rien à trier.',
+      en: '`sortable: false` leaves the header a plain `th`: no button, no `aria-sort`. An actions column has nothing to sort.',
+    },
+    searching: { fr: 'Recherche', en: 'Search' },
+    useSearching: {
+      fr: 'La barre d’outils reçoit `search` et `setSearch` : le champ est à vous, la recherche est ici. Elle ignore la casse et les accents, et ramène à la première page.',
+      en: 'The toolbar receives `search` and `setSearch`: the field is yours, the searching is here. It ignores case and accents, and returns to the first page.',
+    },
+    filtering: { fr: 'Filtres', en: 'Filtering' },
+    useFiltering: {
+      fr: 'Les filtres vivent dans la page : vous passez les lignes déjà filtrées. Une prop `filters` générique finirait en langage de requête miniature.',
+      en: 'Filters live in the page: you pass rows already filtered. A generic `filters` prop would end up a miniature query language.',
+    },
+    selection: { fr: 'Sélection', en: 'Selection' },
+    useSelection: {
+      fr: 'Chaque case est nommée par `rowLabel`. La case d’en-tête passe en `mixed` en sélection partielle.',
+      en: 'Each checkbox is named by `rowLabel`. The header checkbox goes `mixed` on a partial selection.',
+    },
+    locked: { fr: 'Lignes verrouillées', en: 'Locked rows' },
+    useLocked: {
+      fr: 'Une ligne verrouillée n’a pas de case : un cadenas et un texte masqué disent pourquoi, et « tout cocher » l’ignore.',
+      en: 'A locked row has no checkbox: a padlock and hidden text explain why, and “select all” skips it.',
+    },
+    exporting: { fr: 'Export', en: 'Export' },
+    useExporting: {
+      fr: '`Table` **ne fabrique aucun fichier**. `toolbar` reçoit les lignes visibles et les identifiants cochés. L’encodage reste une règle produit.',
+      en: '`Table` **builds no file**. `toolbar` receives the visible rows and the checked ids. Encoding stays a product rule.',
+    },
+    paging: { fr: 'Pagination', en: 'Paging' },
+    usePaging: {
+      fr: '`pageSize` découpe la table et rend une `Pagination` sous elle, nommée d’après la légende. Pour une autre disposition, `footer` la replace. Pendant `loading`, elle est masquée : paginer un squelette n’a pas de sens.',
+      en: '`pageSize` slices the table and renders a `Pagination` beneath it, named after the caption. For another layout, `footer` replaces it. While `loading`, it is hidden: paging a skeleton is meaningless.',
+    },
+    loading: { fr: 'Chargement', en: 'Loading' },
+    loadingBody: {
+      fr: '`loading` remplace le corps par un `SkeletonText` (`aria-hidden`). Le `<table>` porte `aria-busy` : c’est lui qui informe, pas le squelette. Pas d’annonce « 0 résultats », pas de pagination. L’erreur n’est pas un second booléen : passez `ErrorState` dans `empty`.',
+      en: '`loading` replaces the body with `SkeletonText` (`aria-hidden`). The `<table>` sets `aria-busy`: it informs, not the skeleton. No “0 results” announcement, no pagination. Error is not a second boolean: pass `ErrorState` in `empty`.',
+    },
+    composed: { fr: 'Compositions', en: 'Compositions' },
+    useComposed: {
+      fr: 'Onglets, cartes, menus par ligne : ce sont des compositions, pas des props. Chaque table sous un onglet a sa propre légende (`hideCaption` la masque sans la retirer).',
+      en: 'Tabs, cards, per-row menus: these are compositions, not props. Each table under a tab keeps its own caption (`hideCaption` hides it without removing it).',
+    },
+    a11yKeys: {
+      fr: 'Le nombre de résultats est annoncé dans une région `status` (sauf pendant `loading` : `aria-busy` suffit). Tab parcourt les en-têtes triables, les cases et les actions. `labels` dans la langue de la page (3.1.2), sinon fallback anglais.',
+      en: 'The result count is announced in a `status` region (except while `loading`: `aria-busy` is enough). Tab moves through sortable headers, checkboxes, and actions. `labels` in the page’s language (3.1.2), otherwise English fallback.',
     },
     a11yBody: {
-      fr: 'Toujours un `<table>` avec `<th scope="col">` (ou `scope="row"` hors en-tête). Nom : `<caption>` ou `aria-label`. Débordement : Tab vers le conteneur, puis flèches. `EmptyState` dans `TableEmpty` garde un titre `h2`. Contraste du texte ≥ 4.5:1. Pas de `div` + `display: grid` à la place du tableau.',
-      en: 'Always a `<table>` with `<th scope="col">` (or `scope="row"` outside the header). Name: `<caption>` or `aria-label`. Overflow: Tab to the container, then arrows. `EmptyState` inside `TableEmpty` keeps an `h2` title. Text contrast ≥ 4.5:1. No `div` + `display: grid` instead of a table.',
+      fr: 'Toujours un `<table>` avec `<th scope="col">` (ou `scope="row"` hors en-tête). Nom : `<caption>` ou `aria-label`. Débordement : Tab vers le conteneur, puis flèches. Mode données : tri via un `<button>` dans le `th`, `aria-sort` sur **une** colonne, cases nommées par `rowLabel`, résultats dans une région `status`. `loading` pose `aria-busy` et un squelette hors de l’arbre. `EmptyState` dans `TableEmpty` / `empty` garde un titre `h2`. Contraste du texte ≥ 4.5:1. Pas de `div` + `display: grid` à la place du tableau.',
+      en: 'Always a `<table>` with `<th scope="col">` (or `scope="row"` outside the header). Name: `<caption>` or `aria-label`. Overflow: Tab to the container, then arrows. Data mode: sort via a `<button>` inside the `th`, `aria-sort` on **one** column, checkboxes named by `rowLabel`, results in a `status` region. `loading` sets `aria-busy` and a skeleton outside the a11y tree. `EmptyState` inside `TableEmpty` / `empty` keeps an `h2` title. Text contrast ≥ 4.5:1. No `div` + `display: grid` instead of a table.',
     },
     doCaption: {
       fr: '`caption` ou `TableCaption` pour nommer le tableau (et la région s’il déborde)',
@@ -3340,24 +3438,48 @@ export const docsCopy = {
       en: '`numeric` on the header **and** the cells of a numeric column',
     },
     doEmpty: {
-      fr: '`TableEmpty colSpan={n}` + `EmptyState` (titre, éventuellement action)',
-      en: '`TableEmpty colSpan={n}` + `EmptyState` (title, optional action)',
+      fr: '`TableEmpty` / `empty` + `EmptyState` ou `ErrorState` (titre, éventuellement action)',
+      en: '`TableEmpty` / `empty` + `EmptyState` or `ErrorState` (title, optional action)',
+    },
+    doLoading: {
+      fr: '`loading` pour le squelette, `aria-busy` sur le tableau — pas un spinner dans une cellule',
+      en: '`loading` for the skeleton, `aria-busy` on the table — not a spinner in a cell',
+    },
+    doValue: {
+      fr: 'Une `value` brute, distincte du `cell` : on trie une date, pas son texte',
+      en: 'A raw `value`, distinct from `cell`: you sort a date, not its text',
+    },
+    doRowLabel: {
+      fr: 'Un `rowLabel` lisible : « Sélectionner CMD-1043 », jamais un identifiant',
+      en: 'A readable `rowLabel`: “Select CMD-1043”, never a bare id',
     },
     dontDiv: {
       fr: 'Une grille de `div` ou des `span` « stylés comme un tableau »',
       en: 'A `div` grid or `span`s “styled as a table”',
     },
     dontSort: {
-      fr: 'Le tri, le filtre ou la sélection de lignes dans `Table` — c’est Data Table (DS-042)',
-      en: 'Sort, filter, or row selection inside `Table` — that is Data Table (DS-042)',
+      fr: 'Inventer un second composant `DataTable` : passez `columns` / `rows` sur `Table`',
+      en: 'Inventing a second `DataTable` component: pass `columns` / `rows` on `Table`',
     },
     dontLms: {
       fr: 'Un `GradeTable` métier (colonnes LMS) dans `d-ui`',
       en: 'A domain `GradeTable` (LMS columns) inside `d-ui`',
     },
+    dontGrid: {
+      fr: 'Un `role="grid"` sur une liste : la navigation cellule par cellule est un coût, pas un bonus',
+      en: 'A `role="grid"` on a list: cell-by-cell navigation is a cost, not a bonus',
+    },
+    dontIndex: {
+      fr: 'Un `rowId` basé sur l’index : le tri le déplace, React réutilise la mauvaise ligne',
+      en: 'A `rowId` based on the index: sorting moves it, and React reuses the wrong row',
+    },
+    dontColor: {
+      fr: 'Un statut porté par la seule couleur d’une pastille, sans son mot (1.4.1)',
+      en: 'A status carried by a dot’s colour alone, without its word (1.4.1)',
+    },
     props: {
-      fr: '`caption`, `stickyHeader`, `size`, `className` (conteneur). Cellules : `align`, `numeric`. Vide : `colSpan`. Attributs du `<table>` transmis (sauf `aria-label` qui nomme aussi la région).',
-      en: '`caption`, `stickyHeader`, `size`, `className` (container). Cells: `align`, `numeric`. Empty: `colSpan`. `<table>` attributes are forwarded (except `aria-label`, which also names the region).',
+      fr: 'Mode parties : `caption`, `stickyHeader`, `size`, `className` (conteneur de défilement). Cellules : `align`, `numeric`. Vide : `colSpan`. Mode données : `columns`, `rows`, `rowId`, plus `sort`, `search`, `selectable`, `pageSize`, `toolbar`, `loading`, `empty`. `className` vise le scroller dans les deux modes. Attributs du `<table>` transmis en mode parties.',
+      en: 'Parts mode: `caption`, `stickyHeader`, `size`, `className` (scroll container). Cells: `align`, `numeric`. Empty: `colSpan`. Data mode: `columns`, `rows`, `rowId`, plus `sort`, `search`, `selectable`, `pageSize`, `toolbar`, `loading`, `empty`. `className` targets the scroller in both modes. `<table>` attributes are forwarded in parts mode.',
     },
   },
 } as const;
