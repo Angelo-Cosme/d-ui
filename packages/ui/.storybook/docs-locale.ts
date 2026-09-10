@@ -215,6 +215,15 @@ export const storyNameEn: Record<string, string> = {
   Pagination: 'Pagination',
   'Colonnes et lignes': 'Columns and rows',
   'Aucun résultat': 'No results',
+  Miniature: 'Thumbnail',
+  Rapports: 'Ratios',
+  Cadrage: 'Fit',
+  'Image indisponible': 'Image unavailable',
+  Décorative: 'Decorative',
+  Vignette: 'Tile',
+  'Fichier refusé': 'Rejected file',
+  'Galerie d’images': 'Image gallery',
+  'Photo unique': 'Single photo',
 };
 
 const storyNameFr: Record<string, string> = Object.fromEntries(
@@ -848,6 +857,46 @@ export function calendarCopy(locale: DocsLocale): CalendarDocsCopy {
   return locale === 'en' ? calendarEn : calendarFr;
 }
 
+const imageFr = {
+  alt: 'Amphithéâtre pendant un cours',
+  caption: 'Rentrée 2026',
+  broken: 'Image indisponible',
+  square: 'Carré',
+  video: 'Paysage',
+  portrait: 'Portrait',
+  wide: 'Bandeau',
+  cover: 'Rognée',
+  contain: 'Entière',
+  fileName: 'plan-de-cours.pdf',
+  imageName: 'amphi.png',
+  removeFile: (name: string) => `Retirer ${name}`,
+  tooHeavy: 'Dépasse 2 Mo',
+  sending: 'Envoi : 40 %',
+};
+
+const imageEn = {
+  alt: 'Lecture hall during a class',
+  caption: 'Autumn 2026',
+  broken: 'Image unavailable',
+  square: 'Square',
+  video: 'Landscape',
+  portrait: 'Portrait',
+  wide: 'Banner',
+  cover: 'Cropped',
+  contain: 'Whole',
+  fileName: 'course-outline.pdf',
+  imageName: 'hall.png',
+  removeFile: (name: string) => `Remove ${name}`,
+  tooHeavy: 'Over 2 MB',
+  sending: 'Uploading: 40%',
+};
+
+export type ImageDocsCopy = typeof imageFr;
+
+export function imageCopy(locale: DocsLocale): ImageDocsCopy {
+  return locale === 'en' ? imageEn : imageFr;
+}
+
 const fileUploadFr = {
   label: 'Devoir',
   helper: 'PDF, jusqu’à 5 Mo.',
@@ -858,6 +907,13 @@ const fileUploadFr = {
   small: 'Petite',
   medium: 'Moyenne',
   large: 'Grande',
+  galleryLabel: 'Photos du cours',
+  galleryHelper: 'JPEG ou PNG, jusqu’à 2 Mo par image.',
+  galleryFiles: 'Photos choisies',
+  photoLabel: 'Photo de profil',
+  photoBrowse: 'Choisir une photo',
+  noFile: 'Aucun fichier choisi',
+  deletePhoto: 'Supprimer la photo',
 };
 
 const fileUploadEn = {
@@ -870,6 +926,13 @@ const fileUploadEn = {
   small: 'Small',
   medium: 'Medium',
   large: 'Large',
+  galleryLabel: 'Course photos',
+  galleryHelper: 'JPEG or PNG, up to 2 MB per image.',
+  galleryFiles: 'Chosen photos',
+  photoLabel: 'Profile photo',
+  photoBrowse: 'Choose a photo',
+  noFile: 'No file chosen',
+  deletePhoto: 'Delete photo',
 };
 
 export type FileUploadDocsCopy = typeof fileUploadFr;

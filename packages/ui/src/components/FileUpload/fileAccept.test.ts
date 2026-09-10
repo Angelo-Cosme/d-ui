@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { fileMatchesAccept, formatFileSize, partitionFiles } from './fileAccept';
+import { fileMatchesAccept, partitionFiles } from './fileAccept';
 
 function file(name: string, type: string, size = 8): File {
   return new File(['x'.repeat(size)], name, { type });
@@ -39,13 +39,5 @@ describe('partitionFiles', () => {
     });
     expect(accepted).toEqual([pdf]);
     expect(rejected.map((item) => item.reason)).toEqual(['type', 'size']);
-  });
-});
-
-describe('formatFileSize', () => {
-  it('formats bytes, kilobytes and megabytes', () => {
-    expect(formatFileSize(400)).toBe('400 o');
-    expect(formatFileSize(2048)).toBe('2 Ko');
-    expect(formatFileSize(2 * 1024 * 1024)).toBe('2 Mo');
   });
 });

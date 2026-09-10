@@ -161,10 +161,16 @@ export { Label } from './components/Field/Label';
 export type { LabelProps } from './components/Field/Label';
 export { useFieldControl } from './components/Field/useFieldControl';
 export type { FieldControlProps } from './components/Field/useFieldControl';
+export { FilePreview } from './components/FilePreview/FilePreview';
+export type {
+  FilePreviewLayout,
+  FilePreviewProps,
+} from './components/FilePreview/FilePreview';
 export { FileUpload } from './components/FileUpload/FileUpload';
 export type {
   FileRejection,
   FileRejectionReason,
+  FileUploadPreview,
   FileUploadProgress,
   FileUploadProps,
   FileUploadSize,
@@ -177,6 +183,13 @@ export type {
 } from './components/Heading/Heading';
 export { Icon } from './components/Icon/Icon';
 export type { IconProps, IconSize } from './components/Icon/Icon';
+export { Image } from './components/Image/Image';
+export type {
+  ImageFit,
+  ImageProps,
+  ImageRadius,
+  ImageRatio,
+} from './components/Image/Image';
 export { Link } from './components/Link/Link';
 export type { LinkColor, LinkIconPosition, LinkProps } from './components/Link/Link';
 export { Text } from './components/Text/Text';

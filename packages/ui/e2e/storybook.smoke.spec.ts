@@ -71,6 +71,10 @@ test('component docs use Component | Dudalo Design System titles', async ({ page
   await expect(page).toHaveTitle('Calendar | Dudalo Design System');
   await page.goto('/?path=/docs/components-fileupload--docs');
   await expect(page).toHaveTitle('FileUpload | Dudalo Design System');
+  await page.goto('/?path=/docs/components-image--docs');
+  await expect(page).toHaveTitle('Image | Dudalo Design System');
+  await page.goto('/?path=/docs/components-filepreview--docs');
+  await expect(page).toHaveTitle('FilePreview | Dudalo Design System');
   await page.goto('/?path=/docs/components-datepicker--docs');
   await expect(page).toHaveTitle('DatePicker | Dudalo Design System');
   await page.goto('/?path=/docs/components-timepicker--docs');
@@ -140,6 +144,8 @@ test('component docs H1 is the component name, like Link', async ({ page }) => {
     { id: 'components-combobox--docs', name: 'Combobox' },
     { id: 'components-calendar--docs', name: 'Calendar' },
     { id: 'components-fileupload--docs', name: 'FileUpload' },
+    { id: 'components-image--docs', name: 'Image' },
+    { id: 'components-filepreview--docs', name: 'FilePreview' },
     { id: 'components-datepicker--docs', name: 'DatePicker' },
     { id: 'components-tabs--docs', name: 'Tabs' },
     { id: 'components-breadcrumb--docs', name: 'Breadcrumb' },

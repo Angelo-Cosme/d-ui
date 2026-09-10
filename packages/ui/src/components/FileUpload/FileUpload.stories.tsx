@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fileUploadArgTypes } from '../../../.storybook/arg-types';
 import { componentSource } from '../../../.storybook/docs-source';
 import { docsLocale, fileUploadCopy } from '../../../.storybook/docs-locale';
+import { useEffect, useState } from 'react';
+import { Avatar } from '../Avatar/Avatar';
+import { Button } from '../Button/Button';
 import { Text } from '../Text/Text';
 import { FileUpload } from './FileUpload';
 
@@ -206,6 +209,110 @@ export const Progress: Story = {
           </Text>
         }
       />
+    );
+  },
+};
+
+/* Une image factice, pour que la galerie rende la même chose hors ligne. */
+function samplePhoto(name: string): File {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><rect width="160" height="160" fill="#a5b4fc"/><circle cx="56" cy="52" r="20" fill="#e0e7ff"/><path d="M0 160 L70 74 L124 160 Z" fill="#6366f1"/></svg>`;
+  // Le type doit correspondre aux octets : un SVG annoncé `image/png` ne décode pas.
+  return new File([svg], name, { type: 'image/svg+xml' });
+}
+
+export const ImageGallery: Story = {
+  name: 'Galerie d’images',
+  parameters: componentSource(
+    importFileUpload,
+    `<FileUpload
+    label="Photos du cours"
+    accept="image/*"
+    multiple
+    preview="grid"
+    maxSize={2 * 1024 * 1024}
+/>`,
+  ),
+  render: (args, { globals }) => {
+    const copy = fileUploadCopy(docsLocale(globals.locale));
+    return (
+      <FileUpload
+        {...args}
+        label={copy.galleryLabel}
+        helper={copy.galleryHelper}
+        filesLabel={copy.galleryFiles}
+        dropLabel={copy.drop}
+        browseLabel={copy.browse}
+        accept="image/*"
+        multiple
+        preview="grid"
+        maxSize={2 * 1024 * 1024}
+        defaultFiles={[samplePhoto('amphi.png'), samplePhoto('atelier.png')]}
+      />
+    );
+  },
+};
+
+export const SinglePhoto: Story = {
+  name: 'Photo unique',
+  parameters: componentSource(
+    importFileUpload,
+    `{/* Un seul fichier, et c'est la page qui décide de l'aperçu : ici un Avatar. */}
+<FileUpload
+    label="Photo de profil"
+    accept="image/*"
+    dropzone={false}
+    preview="none"
+    files={photo ? [photo] : []}
+    onFilesChange={(files) => setPhoto(files[0] ?? null)}
+/>`,
+  ),
+  render: (args, { globals }) => {
+    const copy = fileUploadCopy(docsLocale(globals.locale));
+
+    const [photo, setPhoto] = useState<File | null>(null);
+
+    const [src, setSrc] = useState<string | undefined>(undefined);
+
+    /*
+     * L'URL se crée dans un effet, et se révoque au retour. La fabriquer au
+     * rendu en produirait une nouvelle à chaque passage, toutes retenues en
+     * mémoire — c'est précisément ce que `FilePreview` évite quand on peut
+     * s'en servir. Ici l'aperçu est un `Avatar`, donc la page s'en charge.
+     */
+
+    useEffect(() => {
+      if (!photo) {
+        setSrc(undefined);
+        return;
+      }
+      const url = URL.createObjectURL(photo);
+      setSrc(url);
+      return () => URL.revokeObjectURL(url);
+    }, [photo]);
+
+    return (
+      <div className="flex items-center gap-4">
+        <Avatar src={src} name={copy.photoLabel} size="xxl" />
+        <FileUpload
+          {...args}
+          label={copy.photoLabel}
+          accept="image/*"
+          dropzone={false}
+          preview="none"
+          browseLabel={copy.photoBrowse}
+          files={photo ? [photo] : []}
+          onFilesChange={(files) => setPhoto(files[0] ?? null)}
+        />
+        {photo ? (
+          <Button variant="ghost" onClick={() => setPhoto(null)}>
+            {copy.deletePhoto}
+          </Button>
+        ) : (
+          <Text as="span" size="body-sm" tone="muted">
+            {copy.noFile}
+          </Text>
+        )}
+      </div>
     );
   },
 };

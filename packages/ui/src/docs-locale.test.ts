@@ -46,6 +46,7 @@ import {
   sortableCopy,
   tableCopy,
   tableDataCopy,
+  imageCopy,
 } from '../.storybook/docs-locale';
 
 /** English MDX headings that must not appear: docs default language is French. */
@@ -228,6 +229,7 @@ describe('docs locale', () => {
     expect(keysOf(sortableCopy('fr'))).toEqual(keysOf(sortableCopy('en')));
     expect(keysOf(tableCopy('fr'))).toEqual(keysOf(tableCopy('en')));
     expect(keysOf(tableDataCopy('fr'))).toEqual(keysOf(tableDataCopy('en')));
+    expect(keysOf(imageCopy('fr'))).toEqual(keysOf(imageCopy('en')));
   });
 
   it('writes MDX section headings in French', () => {

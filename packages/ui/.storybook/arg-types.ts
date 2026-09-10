@@ -952,6 +952,12 @@ export const fileUploadArgTypes = {
     options: ['sm', 'md', 'lg'],
     description: '`sm` / `md` / `lg` : hauteur de la zone et taille du bouton.',
   },
+  preview: {
+    control: 'inline-radio' as const,
+    options: ['list', 'grid', 'none'],
+    description:
+      'Forme de l’aperçu : `list` (défaut, une ligne par fichier), `grid` (vignettes, pour des images) ou `none` — les fichiers restent dans `files`, la page les rend elle-même. Avec `none`, un `progress` par fichier n’est plus appelé : il n’y a plus de ligne où le poser.',
+  },
 };
 
 const pickerFieldArgTypes = {
@@ -1731,4 +1737,99 @@ export const tableArgTypes = {
     description:
       'Classes du conteneur de défilement (`max-h-56`, `max-w-md`) — y compris en mode données. La barre et la pagination restent hors du défilement. Fusionnées en dernier avec `cx`.',
   },
+};
+
+export const imageArgTypes = {
+  src: {
+    description: 'URL du fichier. Une nouvelle `src` remet l’état de chargement à zéro.',
+  },
+  alt: {
+    description:
+      'Texte alternatif, **obligatoire**. `""` est une valeur légitime : c’est ainsi qu’on déclare une image décorative. Sans `alt`, un lecteur d’écran lit le nom du fichier (1.1.1).',
+  },
+  ratio: {
+    control: 'select' as const,
+    options: ['auto', 'square', 'video', 'portrait', 'wide'],
+    description:
+      'Rapport d’aspect réservé avant le chargement, pour que la page ne saute pas. `auto` laisse l’image dicter sa hauteur : elle n’est alors connue qu’une fois le fichier chargé, sauf si `width` et `height` sont donnés tous les deux.',
+  },
+  fit: {
+    control: 'inline-radio' as const,
+    options: ['cover', 'contain'],
+    description:
+      '`cover` (défaut) rogne pour remplir le cadre, `contain` montre l’image entière et laisse du vide.',
+  },
+  radius: {
+    control: 'select' as const,
+    options: ['none', 'sm', 'md', 'lg', 'xl', 'full'],
+    description: 'Arrondi du cadre. Défaut : `md`. `full` pour un portrait rond.',
+  },
+  loading: {
+    control: 'inline-radio' as const,
+    options: ['lazy', 'eager'],
+    description:
+      '`lazy` par défaut : une galerie ne télécharge pas trente fichiers avant le premier défilement. `eager` pour une image visible d’emblée.',
+  },
+  fallback: {
+    description:
+      'Ce qui remplace l’image si elle ne charge pas. Sans repli, le navigateur affiche son icône cassée — ça ressemble à un bug. Le nom accessible, lui, est conservé.',
+  },
+  placeholder: {
+    description: 'Contenu affiché pendant le chargement. Défaut : un aplat neutre.',
+  },
+  width: {
+    description:
+      'Largeur du cadre. Nombre en pixels, ou chaîne CSS. En nombre, elle part aussi sur l’`<img>` comme attribut.',
+  },
+  height: {
+    description:
+      'Hauteur du cadre. Ignorée si `ratio` la calcule déjà. Avec `width`, en nombres, c’est ce qui réserve la place en `ratio="auto"`.',
+  },
+  fallbackLabel: {
+    description:
+      'Ce que le lecteur d’écran entend en plus du `alt` quand l’image a échoué. Défaut anglais `(image unavailable)` : une page française le remplace (3.1.2).',
+  },
+  imgClassName: {
+    description: 'Classes de l’`<img>` lui-même. `className` habille le cadre.',
+  },
+  className: classNameArgType,
+};
+
+export const filePreviewArgTypes = {
+  file: {
+    control: { disable: true },
+    description:
+      'Le `File` à décrire. Le nom, le poids et le type en sont déduits ; l’URL objet de la miniature est créée **et révoquée** par le composant.',
+  },
+  layout: {
+    control: 'inline-radio' as const,
+    options: ['row', 'tile'],
+    description:
+      '`row` (défaut) : une ligne, miniature à gauche. `tile` : une vignette carrée, le nom dessous — la forme d’une galerie.',
+  },
+  progress: {
+    description: 'Slot de progression, rendu sous le nom du fichier.',
+  },
+  onRemove: {
+    control: { disable: true },
+    description: 'Sans ce rappel, aucun bouton de retrait n’est rendu.',
+  },
+  removeLabel: {
+    description:
+      'Nom accessible du bouton de retrait. Il doit citer le fichier : « Retirer » seul ne dit pas lequel. Défaut : le nom du fichier.',
+  },
+  error: {
+    description:
+      'Motif du refus. Il s’accompagne d’un glyphe : l’état ne tient pas qu’à la couleur (1.4.1).',
+  },
+  disabled: {
+    description:
+      'Grise le bouton de retrait. `FileUpload` le pose sur chaque ligne quand le champ entier est désactivé.',
+  },
+  formatSize: {
+    control: { disable: true },
+    description:
+      'Met le poids en mots. Défaut français (`o` / `Ko` / `Mo`) : c’est le seul texte que le composant produit lui-même, et une page anglaise doit pouvoir le remplacer (3.1.2).',
+  },
+  className: classNameArgType,
 };
