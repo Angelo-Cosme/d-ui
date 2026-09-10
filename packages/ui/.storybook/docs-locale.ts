@@ -201,6 +201,9 @@ export const storyNameEn: Record<string, string> = {
   Grille: 'Grid',
   'Élément verrouillé': 'Locked item',
   'Boutons Monter / Descendre': 'Move up / down buttons',
+  'Pied de carte': 'Card footer',
+  'Numéros centrés': 'Centered page numbers',
+  'Pied de carte simple': 'Simple card footer',
 };
 
 const storyNameFr: Record<string, string> = Object.fromEntries(
