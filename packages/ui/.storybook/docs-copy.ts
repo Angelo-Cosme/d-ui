@@ -2060,10 +2060,125 @@ export const docsCopy = {
       en: '`value` / `onValueChange` for controlled state (`CalendarDate` or `{ start, end }`). `selectionMode="range"` for a range. `today` to freeze “today” in tests. `name` / `nameEnd` set hidden `YYYY-MM-DD` fields.',
     },
   },
+  image: {
+    title: { fr: 'Image', en: 'Image' },
+    intro: {
+      fr: '`Image` encadre une image et prend en charge les deux états que chaque page réécrivait sinon : le chargement et l’échec. Posez `ratio` — ou `width` **et** `height` ensemble — et le cadre réserve la place avant même que le fichier arrive, donc la page ne saute pas.',
+      en: '`Image` frames an image and owns the two states every page used to rewrite: loading and failure. Set `ratio` — or `width` **and** `height` together — and the frame reserves the space before the file even arrives, so the page does not jump.',
+    },
+    altTitle: { fr: 'Le texte alternatif', en: 'The alternative text' },
+    altBody: {
+      fr: '`alt` est **obligatoire**, et `""` en est une valeur légitime : c’est ainsi qu’on déclare une image décorative, que le lecteur d’écran doit ignorer. Une image sans `alt` du tout est lue par son nom de fichier — jamais ce qu’on veut (WCAG 1.1.1).',
+      en: '`alt` is **required**, and `""` is a legitimate value: that is how you declare a decorative image a screen reader should skip. An image with no `alt` at all is read out by its file name — never what anyone wants (WCAG 1.1.1).',
+    },
+    ratioTitle: { fr: 'Rapport et cadrage', en: 'Ratio and fit' },
+    ratioBody: {
+      fr: '`ratio` réserve la place ; `fit` décide de ce qui arrive quand le fichier n’a pas ce rapport-là. En `auto`, la hauteur n’est connue qu’une fois l’image chargée : sans `ratio` ni `height`, la page saute au moment où le fichier atterrit. `cover` rogne pour remplir, `contain` montre l’image entière et laisse du vide. Un portrait dans un cadre paysage perd la tête en `cover` : c’est un choix, pas un défaut.',
+      en: '`ratio` reserves the space; `fit` decides what happens when the file does not have that ratio. Under `auto` the height is only known once the image has loaded: with neither `ratio` nor `height`, the page jumps when the file lands. `cover` crops to fill, `contain` shows the whole image and leaves space around it. A portrait in a landscape frame loses its head under `cover`: that is a choice, not a bug.',
+    },
+    thumbnailBody: {
+      fr: 'La « miniature » du ticket DS-043 est `Image` à une petite taille : `ratio="square"`, une largeur, un arrondi. Deux props figées ne font pas un composant — ce serait le doublon relevé sur `Spinner`.',
+      en: 'The “thumbnail” from ticket DS-043 is `Image` at a small size: `ratio="square"`, a width, a radius. Two frozen props do not make a component — that would be the duplicate flagged on `Spinner`.',
+    },
+    fallbackTitle: { fr: 'Quand l’image ne charge pas', en: 'When the image fails' },
+    fallbackBody: {
+      fr: 'Un `<img>` cassé affiche l’icône du navigateur **et** le texte alternatif : ça ressemble à un bug. `Image` rend `fallback` à la place, garde la place réservée, et continue de porter le nom accessible — une image décorative, elle, reste silencieuse.',
+      en: 'A broken `<img>` shows the browser icon **and** the alternative text: it looks like a bug. `Image` renders `fallback` instead, keeps the reserved space, and still carries the accessible name — a decorative image stays silent.',
+    },
+    a11yBody: {
+      fr: '`alt` porte le sens, y compris en cas d’échec : le repli devient une `role="img"` nommée par le même texte. `alt=""` sort l’image de l’arbre d’accessibilité, à l’état normal comme à l’échec. Le chargement est décoratif et n’est jamais annoncé.',
+      en: '`alt` carries the meaning, failure included: the fallback becomes a `role="img"` named by that same text. `alt=""` keeps the image out of the accessibility tree, in both the normal and the failed state. The loading state is decorative and never announced.',
+    },
+    a11yKeys: {
+      fr: 'Le chargement paresseux est le défaut. Une image visible d’emblée (bannière, portrait en haut de page) doit passer `loading="eager"` : sinon elle arrive après le premier rendu, ce qui décale la lecture.',
+      en: 'Lazy loading is the default. An image visible straight away (a banner, a portrait at the top of the page) should pass `loading="eager"`, or it lands after first paint and shifts what the reader was looking at.',
+    },
+    doAlt: {
+      fr: 'Un `alt` qui dit ce que l’image apporte, ou `""` si elle n’apporte rien',
+      en: 'An `alt` that says what the image adds, or `""` when it adds nothing',
+    },
+    doRatio: {
+      fr: 'Un `ratio` dès que la taille est connue, pour que la page ne saute pas',
+      en: 'A `ratio` as soon as the size is known, so the page does not jump',
+    },
+    doFallback: {
+      fr: 'Un `fallback` sur les images venues d’ailleurs (téléversement, API)',
+      en: 'A `fallback` on images that come from elsewhere (uploads, an API)',
+    },
+    dontFilename: {
+      fr: 'Omettre `alt` : le lecteur d’écran lit le nom du fichier',
+      en: 'Leaving `alt` out: the screen reader reads the file name',
+    },
+    dontRepeat: {
+      fr: 'Répéter dans `alt` une légende déjà écrite juste à côté',
+      en: 'Repeating in `alt` a caption already written right beside it',
+    },
+    dontText: {
+      fr: 'Une image de texte : le texte doit être du texte (1.4.5)',
+      en: 'An image of text: text should be text (1.4.5)',
+    },
+    propsBody: {
+      fr: '`alt` est la seule prop obligatoire avec `src`. `width` et `height` habillent le cadre, pas le fichier.',
+      en: '`alt` is the only required prop besides `src`. `width` and `height` size the frame, not the file.',
+    },
+  },
+  filePreview: {
+    title: { fr: 'FilePreview', en: 'FilePreview' },
+    intro: {
+      fr: '`FilePreview` décrit un fichier choisi : une miniature s’il s’agit d’une image, son extension sinon, puis le nom, le poids, une progression et un retrait. C’est ce que `FileUpload` rend pour chaque fichier.',
+      en: '`FilePreview` describes a chosen file: a thumbnail when it is an image, its extension otherwise, then the name, the weight, a progress slot and a remove button. It is what `FileUpload` renders for each file.',
+    },
+    urlTitle: { fr: 'L’URL objet', en: 'The object URL' },
+    urlBody: {
+      fr: 'La miniature vient d’un `URL.createObjectURL`, **créé et révoqué par le composant**. C’est sa raison d’être : chaque page qui refaisait cet aperçu à la main oubliait le `revokeObjectURL`, et le fichier restait en mémoire jusqu’au rechargement.',
+      en: 'The thumbnail comes from `URL.createObjectURL`, **created and revoked by the component**. That is its reason to exist: every page that rebuilt this preview by hand forgot the `revokeObjectURL`, and the file stayed in memory until a reload.',
+    },
+    layoutTitle: { fr: 'Ligne ou vignette', en: 'Row or tile' },
+    layoutBody: {
+      fr: '`row` pour une liste de pièces jointes, `tile` pour une galerie d’images. La sémantique ne change pas : c’est `FileUpload` qui porte la `<ul>` nommée, `FilePreview` ne décrit qu’un fichier.',
+      en: '`row` for a list of attachments, `tile` for an image gallery. The semantics do not change: `FileUpload` carries the named `<ul>`, `FilePreview` only describes one file.',
+    },
+    a11yBody: {
+      fr: 'Le nom du fichier est le texte visible ; la miniature est décorative (`alt=""`), sinon le lecteur d’écran lirait deux fois la même chose. Le bouton de retrait cite le fichier : « Retirer » seul ne dit pas lequel, dans une liste de huit.',
+      en: 'The file name is the visible text; the thumbnail is decorative (`alt=""`), or a screen reader would read the same thing twice. The remove button names the file: “Remove” on its own does not say which one, in a list of eight.',
+    },
+    a11yKeys: {
+      fr: 'Un refus s’accompagne d’un glyphe, jamais de la seule couleur du texte (1.4.1). L’annonce, elle, reste au conteneur : `FileUpload` porte déjà une région `alert` pour les rejets.',
+      en: 'A rejection comes with a glyph, never with the text colour alone (1.4.1). The announcement stays with the container: `FileUpload` already carries an `alert` region for rejections.',
+    },
+    doName: {
+      fr: 'Un `removeLabel` qui cite le fichier',
+      en: 'A `removeLabel` that names the file',
+    },
+    doTile: {
+      fr: '`tile` quand ce sont des images, `row` quand ce sont des documents',
+      en: '`tile` when they are images, `row` when they are documents',
+    },
+    doProgress: {
+      fr: 'La progression dans le slot, pas dans le nom du fichier',
+      en: 'Progress in the slot, not in the file name',
+    },
+    dontRepeat: {
+      fr: 'Un `alt` sur la miniature : il redirait le nom affiché juste à côté',
+      en: 'An `alt` on the thumbnail: it would repeat the name shown right beside it',
+    },
+    dontOwnUrl: {
+      fr: 'Créer l’URL objet dans la page : c’est le `revoke` qu’on oublie',
+      en: 'Creating the object URL in the page: the `revoke` is what gets forgotten',
+    },
+    dontList: {
+      fr: 'Empiler des `FilePreview` sans liste : le lecteur d’écran perd le compte',
+      en: 'Stacking `FilePreview`s with no list: the screen reader loses the count',
+    },
+    propsBody: {
+      fr: '`file` est un `File`, pas une URL : le composant en déduit tout le reste.',
+      en: '`file` is a `File`, not a URL: the component derives everything else from it.',
+    },
+  },
   fileUpload: {
     intro: {
-      fr: '`FileUpload` est un sélecteur de fichiers accessible : clic, dépôt optionnel, liste suppressible. Il ne téléverse rien — l’app envoie les `File`. Pour recadrer une image, voir plus tard DS-043.',
-      en: '`FileUpload` is an accessible file picker: click, optional drop, removable list. It does not upload — the app sends the `File`s. To crop an image, see DS-043 later.',
+      fr: '`FileUpload` est un sélecteur de fichiers accessible : clic, dépôt optionnel, liste suppressible. Il ne téléverse rien — l’app envoie les `File`. Il ne recadre pas non plus : un recadrage se fait sur le fichier, pas dans le champ.',
+      en: '`FileUpload` is an accessible file picker: click, optional drop, removable list. It does not upload — the app sends the `File`s. It does not crop either: cropping happens on the file, not in the field.',
     },
     dropzone: { fr: 'Zone de dépôt', en: 'Dropzone' },
     dropzoneBody: {
@@ -2093,6 +2208,15 @@ export const docsCopy = {
     progressBody: {
       fr: '`progress` est un slot : un nœud sous la liste, ou une fonction par fichier. Aucun client HTTP dans `d-ui`.',
       en: '`progress` is a slot: a node under the list, or a function per file. No HTTP client in `d-ui`.',
+    },
+    previewTitle: { fr: 'Forme de l’aperçu', en: 'Shape of the preview' },
+    previewBody: {
+      fr: '`preview` décide de la forme de la liste : `list` (défaut) une ligne par fichier, `grid` des vignettes — c’est l’« image uploader » de la maquette, `FileUpload` avec `accept="image/*"` — et `none` quand la page dessine son propre aperçu. La sémantique ne bouge pas : dans les trois cas c’est une `<ul>` nommée, donc « liste, 3 éléments » à l’oreille.',
+      en: '`preview` decides the shape of the list: `list` (default) one row per file, `grid` thumbnails — that is the mockup’s “image uploader”, `FileUpload` with `accept="image/*"` — and `none` when the page draws its own. The semantics do not move: all three are a named `<ul>`, so a screen reader still says “list, 3 items”.',
+    },
+    singlePhotoBody: {
+      fr: 'Sans `multiple`, un nouveau choix remplace le précédent : c’est la photo de profil, sans une ligne de code de plus.',
+      en: 'Without `multiple`, a new pick replaces the previous one: that is the profile photo, with no extra line of code.',
     },
     a11yBody: {
       fr: 'L’input fichier natif est masqué visuellement (`d-ui-visually-hidden`) et sorti de la tabulation : le bouton visible est le contrôle clavier. Le libellé est associé par `htmlFor`. `invalid` pose `aria-invalid` ; l’erreur est liée par `aria-describedby`. La liste a un nom accessible. Le bouton de retrait est une `IconButton` nommée.',

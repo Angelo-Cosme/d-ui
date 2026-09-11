@@ -1,16 +1,15 @@
 import type { ChangeEvent, DragEvent, InputHTMLAttributes, ReactNode } from 'react';
-import { forwardRef, useId, useRef, useState } from 'react';
+import { forwardRef, useEffect, useId, useRef, useState } from 'react';
 import { cx } from '../../lib/cx';
 import { Button } from '../Button/Button';
-import { IconButton } from '../Button/IconButton';
 import { Text } from '../Text/Text';
+import { FilePreview } from '../FilePreview/FilePreview';
 import { mergeDescribedBy } from '../textControl';
 import { useFieldControl } from '../Field/useFieldControl';
 import {
   defaultRemoveLabel,
   defaultSizeError,
   defaultTypeError,
-  formatFileSize,
   partitionFiles,
   type FileRejection,
 } from './fileAccept';
@@ -18,6 +17,7 @@ import {
 export type { FileRejection, FileRejectionReason } from './fileAccept';
 export type FileUploadSize = 'sm' | 'md' | 'lg';
 export type FileUploadProgress = ReactNode | ((file: File) => ReactNode);
+export type FileUploadPreview = 'list' | 'grid' | 'none';
 
 export type FileUploadProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -45,6 +45,17 @@ export type FileUploadProps = Omit<
   onReject?: (rejections: FileRejection[]) => void;
   /** Slot de progression : nœud unique, ou par fichier. */
   progress?: FileUploadProgress;
+  /**
+   * Forme de l'aperçu des fichiers choisis.
+   *
+   * `list` (défaut) : une ligne par fichier. `grid` : des vignettes, la forme
+   * d'une galerie d'images. `none` : rien du tout — les fichiers sont dans
+   * `files`, la page les rend comme elle veut.
+   *
+   * Avec `none`, un `progress` **par fichier** n'est jamais appelé : il n'y a
+   * plus de ligne où le poser. Un `progress` unique, lui, reste rendu.
+   */
+  preview?: FileUploadPreview;
   browseLabel?: string;
   dropLabel?: string;
   removeLabel?: (fileName: string) => string;
@@ -59,21 +70,29 @@ const sizeClass: Record<FileUploadSize, string> = {
   lg: 'min-h-40 px-5 py-8 text-lg',
 };
 
-function RemoveIcon() {
-  return (
-    <svg width="1em" height="1em" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path
-        d="M4 4l8 8M12 4l-8 8"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
+/*
+ * L'identité d'un fichier, sans son rang. Avec l'index, retirer le premier
+ * décalait la clé de tous les suivants : chaque aperçu se démontait et
+ * remontait, et sa miniature repassait par l'aplat de chargement pour rien.
+ */
+function fileKey(file: File): string {
+  return `${file.name}-${file.size}-${file.lastModified}`;
 }
 
-function fileKey(file: File, index: number): string {
-  return `${file.name}-${file.size}-${file.lastModified}-${index}`;
+/*
+ * Le même fichier choisi deux fois donnait deux lignes de clé identique — React
+ * l'écrit en console, et deux boutons « Retirer photo.png » se retrouvaient
+ * côte à côte, impossibles à distinguer à l'oreille. Rechoisir un fichier déjà
+ * là ne doit rien ajouter.
+ */
+function withoutDuplicates(files: File[]): File[] {
+  const seen = new Set<string>();
+  return files.filter((file) => {
+    const key = fileKey(file);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function rejectionMessage(
@@ -119,6 +138,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       dropLabel = 'Glissez les fichiers ici ou cliquez pour les choisir',
       removeLabel = defaultRemoveLabel,
       filesLabel = 'Fichiers sélectionnés',
+      preview = 'list',
       sizeErrorMessage = defaultSizeError,
       typeErrorMessage = defaultTypeError,
       name,
@@ -157,6 +177,46 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     const resolvedBrowse =
       browseLabel ?? (multiple ? 'Choisir des fichiers' : 'Choisir un fichier');
 
+    /*
+     * Le `reset` du formulaire vide l'`<input type="file">` natif mais ne dit
+     * rien à React : la liste continuait d'afficher des fichiers que le
+     * formulaire ne portait plus. C'est le besoin réel derrière le « destroy
+     * and reinitialize » de la maquette — en React, il n'y a rien à détruire,
+     * il y a un événement à écouter.
+     */
+    const resetRef = useRef<() => void>(() => {});
+    resetRef.current = () => {
+      const back = defaultFiles ?? [];
+      if (files.length === 0 && back.length === 0 && rejections.length === 0) return;
+      setRejections([]);
+      if (filesProp === undefined) setUncontrolled(back);
+      onFilesChange?.(back);
+    };
+
+    useEffect(() => {
+      const form = innerRef.current?.form;
+      if (!form) return;
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      const onReset = (event: Event) => {
+        /*
+         * Le `reset` est annulable : un formulaire qui demande confirmation
+         * appelle `preventDefault()` dans son propre gestionnaire, qui remonte
+         * après celui-ci. On lit donc la décision une fois la propagation
+         * finie — sinon un reset annulé vidait quand même la liste, pendant que
+         * l'input natif, lui, gardait son fichier.
+         */
+        timer = setTimeout(() => {
+          if (!event.defaultPrevented) resetRef.current();
+        }, 0);
+      };
+      /* Les dépendances passent par `resetRef` : l'écouteur n'est posé qu'une fois. */
+      form.addEventListener('reset', onReset);
+      return () => {
+        if (timer !== undefined) clearTimeout(timer);
+        form.removeEventListener('reset', onReset);
+      };
+    }, []);
+
     function assignRef(node: HTMLInputElement | null) {
       innerRef.current = node;
       if (typeof forwardedRef === 'function') forwardedRef(node);
@@ -175,7 +235,9 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 
     function ingest(incoming: File[]) {
       const { accepted, rejected } = partitionFiles(incoming, { accept, maxSize });
-      const next = multiple ? [...files, ...accepted] : accepted.slice(-1);
+      const next = multiple
+        ? withoutDuplicates([...files, ...accepted])
+        : accepted.slice(-1);
       commit(next, rejected);
     }
 
@@ -298,26 +360,32 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           </label>
         ) : null}
         {picker}
-        {files.length > 0 ? (
-          <ul id={listId} aria-label={filesLabel} className="flex flex-col gap-1">
+        {/*
+          La liste reste une `<ul>` nommée quelle que soit la forme : c'est ce
+          qui fait annoncer « liste, 3 éléments ». Seule la mise en page change.
+          Chaque ligne est un `FilePreview` — l'aperçu, la miniature et la
+          révocation de son URL objet vivent là, pas ici.
+        */}
+        {preview !== 'none' && files.length > 0 ? (
+          <ul
+            id={listId}
+            aria-label={filesLabel}
+            className={cx(
+              'list-none p-0',
+              preview === 'grid'
+                ? 'grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4'
+                : 'flex flex-col gap-1',
+            )}
+          >
             {files.map((file, index) => (
-              <li
-                key={fileKey(file, index)}
-                className="flex items-center gap-2 rounded-md bg-surface-muted px-3 py-2"
-              >
-                <Text as="span" size="body-sm" className="min-w-0 flex-1 truncate">
-                  {file.name}
-                  <span className="text-fg-muted"> · {formatFileSize(file.size)}</span>
-                </Text>
-                {typeof progress === 'function' ? progress(file) : null}
-                <IconButton
-                  type="button"
-                  variant="ghost"
-                  size="sm"
+              <li key={fileKey(file)} className="min-w-0">
+                <FilePreview
+                  file={file}
+                  layout={preview === 'grid' ? 'tile' : 'row'}
                   disabled={isDisabled}
-                  aria-label={removeLabel(file.name)}
-                  icon={<RemoveIcon />}
-                  onClick={() => removeAt(index)}
+                  removeLabel={removeLabel(file.name)}
+                  onRemove={() => removeAt(index)}
+                  progress={typeof progress === 'function' ? progress(file) : undefined}
                 />
               </li>
             ))}

@@ -1,0 +1,76 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import { H2, H3, P, Ul } from '../../../.storybook/docs-i18n';
+import * as ImageStories from './Image.stories';
+
+<Meta of={ImageStories} />
+
+# Image
+
+<P k="image.intro" />
+
+<P k="chrome.examplesFollow" />
+
+<Canvas of={ImageStories.Default} />
+
+<H2 k="image.altTitle" />
+
+<P k="image.altBody" />
+
+<Canvas of={ImageStories.Decorative} />
+
+<H2 k="image.ratioTitle" />
+
+<P k="image.ratioBody" />
+
+<Canvas of={ImageStories.Ratios} />
+
+<P k="image.thumbnailBody" />
+
+<Canvas of={ImageStories.Thumbnail} />
+
+<Canvas of={ImageStories.Fit} />
+
+<H2 k="image.fallbackTitle" />
+
+<P k="image.fallbackBody" />
+
+<Canvas of={ImageStories.Unavailable} />
+
+<H2 k="chrome.accessibility" />
+
+<P k="image.a11yBody" />
+
+<P k="image.a11yKeys" />
+
+<H3 k="chrome.do" />
+
+<Ul items={['image.doAlt', 'image.doRatio', 'image.doFallback']} />
+
+<H3 k="chrome.dont" />
+
+<Ul items={['image.dontFilename', 'image.dontRepeat', 'image.dontText']} />
+
+<P k="chrome.themeLang" />
+
+<H2 k="chrome.properties" />
+
+<P k="image.propsBody" />
+
+<ArgTypes
+  of={ImageStories}
+  include={[
+    'src',
+    'alt',
+    'ratio',
+    'fit',
+    'radius',
+    'loading',
+    'fallback',
+    'fallbackLabel',
+    'placeholder',
+    'width',
+    'height',
+    'imgClassName',
+    'className',
+  ]}
+/>

@@ -1,0 +1,64 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import { H2, H3, P, Ul } from '../../../.storybook/docs-i18n';
+import * as FilePreviewStories from './FilePreview.stories';
+
+<Meta of={FilePreviewStories} />
+
+# FilePreview
+
+<P k="filePreview.intro" />
+
+<P k="chrome.examplesFollow" />
+
+<Canvas of={FilePreviewStories.Default} />
+
+<H2 k="filePreview.urlTitle" />
+
+<P k="filePreview.urlBody" />
+
+<H2 k="filePreview.layoutTitle" />
+
+<P k="filePreview.layoutBody" />
+
+<Canvas of={FilePreviewStories.Tile} />
+
+<Canvas of={FilePreviewStories.WithProgress} />
+
+<Canvas of={FilePreviewStories.Rejected} />
+
+<H2 k="chrome.accessibility" />
+
+<P k="filePreview.a11yBody" />
+
+<P k="filePreview.a11yKeys" />
+
+<H3 k="chrome.do" />
+
+<Ul items={['filePreview.doName', 'filePreview.doTile', 'filePreview.doProgress']} />
+
+<H3 k="chrome.dont" />
+
+<Ul
+  items={['filePreview.dontRepeat', 'filePreview.dontOwnUrl', 'filePreview.dontList']}
+/>
+
+<P k="chrome.themeLang" />
+
+<H2 k="chrome.properties" />
+
+<P k="filePreview.propsBody" />
+
+<ArgTypes
+  of={FilePreviewStories}
+  include={[
+    'file',
+    'layout',
+    'progress',
+    'onRemove',
+    'removeLabel',
+    'error',
+    'disabled',
+    'formatSize',
+    'className',
+  ]}
+/>

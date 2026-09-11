@@ -1,3 +1,5 @@
+import { formatFileSize } from '../../lib/formatFileSize';
+
 export type FileRejectionReason = 'type' | 'size';
 
 export type FileRejection = {
@@ -23,14 +25,6 @@ export function fileMatchesAccept(file: File, accept?: string): boolean {
     if (token.endsWith('/*')) return type.startsWith(token.slice(0, -1));
     return type === token;
   });
-}
-
-export function formatFileSize(bytes: number): string {
-  if (bytes < 1024) return `${bytes} o`;
-  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} Ko`;
-  const mega = bytes / (1024 * 1024);
-  const rounded = mega >= 10 ? Math.round(mega) : Math.round(mega * 10) / 10;
-  return `${rounded} Mo`;
 }
 
 export function partitionFiles(
