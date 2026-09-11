@@ -116,9 +116,21 @@ export function Table({ headers, rows }: { headers: string[]; rows: string[][] }
       <tbody>
         {rows.map((row) => (
           <tr key={row.join('-')}>
-            {row.map((k) => (
-              <td key={k}>{renderInline(docsString(docsCopy, k, locale))}</td>
-            ))}
+            {row.map((k, column) => {
+              const content = renderInline(docsString(docsCopy, k, locale));
+              /*
+               * La première cellule nomme la ligne. En `<td>`, un lecteur d'écran
+               * lisait « oui / non / oui » sans dire de quel critère il parlait :
+               * c'est la règle que `docs/accessibility.md` pose déjà pour `Table`.
+               */
+              return column === 0 ? (
+                <th key={k} scope="row">
+                  {content}
+                </th>
+              ) : (
+                <td key={k}>{content}</td>
+              );
+            })}
           </tr>
         ))}
       </tbody>

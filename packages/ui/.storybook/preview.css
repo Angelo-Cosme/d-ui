@@ -150,12 +150,27 @@ html[data-d-ui-theme='dark'] pre.prismjs .token.attr-value {
 .d-ui-docs-table td {
   border: 1px solid var(--d-ui-color-border-subtle);
   padding: 0.75rem 1rem;
-  text-align: left;
+  text-align: start;
 }
 
 .d-ui-docs-table th {
   font-weight: 600;
   background: var(--d-ui-color-surface-muted) !important;
+}
+
+/*
+ * La première cellule de chaque ligne est un `th[scope="row"]` : elle nomme la
+ * ligne pour un lecteur d'écran. Visuellement, elle reste une cellule — le fond
+ * d'en-tête est réservé à la ligne de titres, sinon la table semble avoir deux
+ * en-têtes qui se croisent.
+ */
+.d-ui-docs-table tbody th {
+  /*
+   * Seul le fond est repris : la graisse vient de la feuille de Storybook, qui
+   * met `bold` sur tout `th` d'une table de docs et gagne la cascade. Une
+   * déclaration de plus ici serait inerte.
+   */
+  background: transparent !important;
 }
 
 /* ArgTypes (Propriétés) : Tailwind preflight met padding/border à 0 sur th/td. */

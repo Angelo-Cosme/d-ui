@@ -5,6 +5,7 @@ import { IconButton } from '../Button/IconButton';
 import { Text } from '../Text/Text';
 import { CloseGlyph, DefaultFeedbackIcon } from '../feedback/FeedbackIcons';
 import {
+  feedbackLiveRole,
   feedbackNotificationIconStyle,
   feedbackNotificationShellStyle,
   type FeedbackVariant,
@@ -20,7 +21,7 @@ export type NotificationProps = HTMLAttributes<HTMLDivElement> & {
   /** Libellé du bouton d’action (LumApps « Info with callback »). */
   actionLabel?: string;
   onActionClick?: () => void;
-  /** LumApps n’affiche pas de fermeture manuelle ; réservé aux cas contrôlés. */
+  /** Bouton fermer. Via `useToast`, un toast porteur d’action l’obtient d’office. */
   dismissible?: boolean;
   onDismiss?: () => void;
   open?: boolean;
@@ -31,6 +32,9 @@ export type NotificationProps = HTMLAttributes<HTMLDivElement> & {
 
 /**
  * Toast LumApps (coin inférieur droit). La file / auto-dismiss relève de Toast (DS-033).
+ *
+ * La politesse de l'annonce suit la variante, pas la surface : `feedbackLiveRole`
+ * est la source unique, `Alert` s'en sert aussi (ADR 0002).
  */
 export function Notification({
   variant = 'info',
@@ -65,7 +69,14 @@ export function Notification({
   return (
     <div
       {...rest}
-      role="alert"
+      /*
+       * La politesse suit la gravité, pas la surface — `Alert` le fait déjà avec
+       * la même fonction. En `role="alert"` figé, « Enregistré. » coupait la
+       * parole au lecteur d'écran, et le `aria-live="polite"` du conteneur de
+       * `ToastProvider` ne servait à rien : une région live imbriquée gouverne
+       * son propre contenu.
+       */
+      role={feedbackLiveRole(variant)}
       className={cx(
         'flex max-w-md min-h-[3.25rem] items-center overflow-hidden rounded text-start',
         className,

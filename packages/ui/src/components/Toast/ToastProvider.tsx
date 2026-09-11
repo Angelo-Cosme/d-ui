@@ -116,14 +116,31 @@ export function ToastProvider({
   const toast = useCallback(
     (options: ToastOptions): string => {
       const id = nextToastId(options.id);
+      /*
+       * Un toast qui porte une action ne s'efface pas tout seul. À six secondes,
+       * « Voir les détails » avait disparu avant qu'un utilisateur au clavier ou
+       * au lecteur d'écran ait pu l'atteindre : une fonction offerte par un
+       * contrôle qui s'évapore (WCAG 2.2.1). L'appelant garde la main en passant
+       * une `duration` explicite.
+       */
+      const hasAction = Boolean(options.actionLabel && options.onActionClick);
+      const duration = options.duration ?? (hasAction ? 0 : defaultDuration);
       const item: ToastItem = {
         id,
         variant: options.variant ?? 'info',
         message: options.message,
         actionLabel: options.actionLabel,
         onActionClick: options.onActionClick,
-        duration: options.duration ?? defaultDuration,
-        dismissible: options.dismissible ?? defaultDismissible,
+        duration,
+        /*
+         * Sans auto-fermeture, la fermeture manuelle n'est plus optionnelle —
+         * mais seulement pour les toasts que cette règle rend persistants. Un
+         * `duration: 0` posé par l'appelant garde le comportement d'avant :
+         * sinon la story « File d'attente » se retrouvait avec des boutons
+         * « Dismiss notification » que personne n'avait demandés, nommés en
+         * anglais sur une page française.
+         */
+        dismissible: options.dismissible ?? (hasAction || defaultDismissible),
         dismissLabel: options.dismissLabel ?? 'Dismiss notification',
       };
       dispatch({ type: 'enqueue', item });
@@ -167,6 +184,13 @@ export function ToastProvider({
       <FloatingPortal>
         <div
           {...portal}
+          /*
+           * `role="region"` parce que `aria-label` seul, sur un `div` sans rôle,
+           * est interdit : le nom n'était exposé nulle part et la prop `label`
+           * ne servait à rien (axe, `aria-prohibited-attr`). Nommée, la zone
+           * devient un repère que l'on peut atteindre pour retrouver un toast.
+           */
+          role="region"
           aria-label={label}
           aria-live="polite"
           aria-relevant="additions"
@@ -175,7 +199,12 @@ export function ToastProvider({
             'pointer-events-none fixed inset-4 z-[var(--d-ui-z-overlay)] flex flex-col items-end justify-end gap-3',
             reducedMotion
               ? ''
-              : 'motion-safe:[&_[role=alert]]:transition-opacity motion-safe:[&_[role=alert]]:duration-200',
+              : /*
+                 * `[role]`, pas `[role=alert]` : depuis que la politesse suit la
+                 * variante, un toast `info` ou `success` est un `role="status"`
+                 * et perdait son fondu — mesuré à `transition-duration: 0s`.
+                 */
+                'motion-safe:[&_[role]]:transition-opacity motion-safe:[&_[role]]:duration-200',
           )}
         >
           {active.map((item) => (

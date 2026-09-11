@@ -46,14 +46,8 @@ export const Default: Story = {
   const { toast } = useToast();
   return (
     <Button
-      onClick={() =>
-        toast({
-          variant: 'success',
-          message: 'Enregistré.',
-          dismissible: true,
-          dismissLabel: 'Fermer la notification',
-        })
-      }
+      {/* Minuté, donc sans bouton fermer : il disparaîtrait sous le doigt. */}
+      onClick={() => toast({ variant: 'success', message: 'Enregistré.' })}
     >
       Enregistrer
     </Button>
@@ -75,8 +69,6 @@ export const Default: Story = {
             toast({
               variant: 'success',
               message: copy.saved,
-              dismissible: true,
-              dismissLabel: copy.dismiss,
             })
           }
         >
@@ -140,11 +132,13 @@ export const WithAction: Story = {
   args: { children: null },
   parameters: componentSource(
     importToast,
-    `toast({
+    `{/* Avec une action, pas d'auto-fermeture : le bouton doit rester atteignable. */}
+toast({
   variant: 'info',
   message: 'Nouvelle version disponible.',
   actionLabel: 'Voir les détails',
   onActionClick: () => {},
+  dismissLabel: 'Fermer la notification',
 });`,
   ),
   render: (_, { globals }) => {
@@ -160,6 +154,7 @@ export const WithAction: Story = {
               message: copy.callback,
               actionLabel: copy.action,
               onActionClick: () => undefined,
+              dismissLabel: copy.dismiss,
             })
           }
         >

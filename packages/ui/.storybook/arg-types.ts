@@ -1127,7 +1127,8 @@ export const notificationArgTypes = {
   variant: {
     control: 'inline-radio' as const,
     options: ['info', 'success', 'warning', 'danger'],
-    description: 'Variante LumApps Notification. Toujours `role="alert"`.',
+    description:
+      'Variante LumApps Notification. Elle décide aussi de l’annonce : `info` et `success` en `role="status"`, `warning` et `danger` en `role="alert"` (ADR 0002).',
   },
   actionLabel: {
     control: 'text' as const,
@@ -1137,7 +1138,7 @@ export const notificationArgTypes = {
   dismissible: {
     control: 'boolean' as const,
     description:
-      'Affiche le bouton fermer (optionnel ; LumApps s’appuie sur l’auto-dismiss Toast). Fallback anglais : `Dismiss notification`.',
+      'Affiche le bouton fermer. Optionnel ici ; via `useToast`, un toast porteur d’action l’obtient d’office, faute d’auto-fermeture. Fallback anglais : `Dismiss notification`.',
   },
   dismissLabel: {
     control: 'text' as const,

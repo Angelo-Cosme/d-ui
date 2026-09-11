@@ -9,9 +9,25 @@ describe('Notification', () => {
     expect(NotificationFromEntry).toBe(Notification);
   });
 
-  it('uses role="alert" for every variant', () => {
-    render(<Notification variant="success">Enregistré</Notification>);
-    expect(screen.getByRole('alert')).toHaveTextContent('Enregistré');
+  it('matches its politeness to the gravity, not to the surface', () => {
+    /*
+     * `role="alert"` est assertif : il coupe la parole au lecteur d'écran. Le
+     * faire pour « Enregistré » interrompt une lecture en cours pour annoncer
+     * un succès. `Alert` applique déjà cette règle avec la même fonction.
+     */
+    const { rerender } = render(
+      <Notification variant="success">Enregistré</Notification>,
+    );
+    expect(screen.getByRole('status')).toHaveTextContent('Enregistré');
+
+    rerender(<Notification variant="info">Mise à jour</Notification>);
+    expect(screen.getByRole('status')).toHaveTextContent('Mise à jour');
+
+    for (const variant of ['warning', 'danger'] as const) {
+      rerender(<Notification variant={variant}>Échec de l’envoi</Notification>);
+      // Là, interrompre est le bon comportement : l'utilisateur doit savoir.
+      expect(screen.getByRole('alert')).toHaveTextContent('Échec de l’envoi');
+    }
   });
 
   it('calls onActionClick from the action button', async () => {
@@ -34,6 +50,6 @@ describe('Notification', () => {
       </Notification>,
     );
     await user.click(screen.getByRole('button', { name: 'Fermer' }));
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
   });
 });

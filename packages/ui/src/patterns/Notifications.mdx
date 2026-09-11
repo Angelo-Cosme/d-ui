@@ -1,0 +1,101 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { H2, P, Ol, Ul, Table } from '../../.storybook/docs-i18n';
+
+<Meta title="Patterns/Notifications" />
+
+# Notifications
+
+<P k="notificationPattern.intro" />
+
+<H2 k="notificationPattern.axisTitle" />
+
+<P k="notificationPattern.axisBody" />
+
+<H2 k="notificationPattern.treeTitle" />
+
+<Ol
+  items={[
+    'notificationPattern.tree1',
+    'notificationPattern.tree2',
+    'notificationPattern.tree3',
+  ]}
+/>
+
+<Table
+  headers={[
+    'notificationPattern.colCase',
+    'notificationPattern.colAlert',
+    'notificationPattern.colToast',
+    'notificationPattern.colCenter',
+  ]}
+  rows={[
+    [
+      'notificationPattern.rowOrigin',
+      'notificationPattern.originAlert',
+      'notificationPattern.originToast',
+      'notificationPattern.originCenter',
+    ],
+    [
+      'notificationPattern.rowLife',
+      'notificationPattern.lifeAlert',
+      'notificationPattern.lifeToast',
+      'notificationPattern.lifeCenter',
+    ],
+    [
+      'notificationPattern.rowReload',
+      'notificationPattern.reloadAlert',
+      'notificationPattern.reloadToast',
+      'notificationPattern.reloadCenter',
+    ],
+    [
+      'notificationPattern.rowAction',
+      'notificationPattern.actionAlert',
+      'notificationPattern.actionToast',
+      'notificationPattern.actionCenter',
+    ],
+    [
+      'notificationPattern.rowPlace',
+      'notificationPattern.placeAlert',
+      'notificationPattern.placeToast',
+      'notificationPattern.placeCenter',
+    ],
+  ]}
+/>
+
+<H2 k="notificationPattern.rulesTitle" />
+
+<Ol
+  items={[
+    'notificationPattern.rule1',
+    'notificationPattern.rule2',
+    'notificationPattern.rule3',
+    'notificationPattern.rule7',
+    'notificationPattern.rule4',
+    'notificationPattern.rule5',
+    'notificationPattern.rule6',
+  ]}
+/>
+
+<H2 k="notificationPattern.centerTitle" />
+
+<P k="notificationPattern.centerBody" />
+
+<H2 k="chrome.do" />
+
+<Ul
+  items={[
+    'notificationPattern.doAlert',
+    'notificationPattern.doVariant',
+    'notificationPattern.doQuiet',
+  ]}
+/>
+
+<H2 k="chrome.dont" />
+
+<Ul
+  items={[
+    'notificationPattern.dontOnly',
+    'notificationPattern.dontSpam',
+    'notificationPattern.dontLog',
+  ]}
+/>

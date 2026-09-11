@@ -2481,8 +2481,8 @@ export const docsCopy = {
   },
   notification: {
     intro: {
-      fr: '`Notification` correspond au toast LumApps (processus applicatif, coin inférieur droit). Toujours `role="alert"`. La file et l’auto-dismiss relèvent de Toast (DS-033).',
-      en: '`Notification` maps to the LumApps toast (app process, bottom-right corner). Always `role="alert"`. Queue and auto-dismiss belong to Toast (DS-033).',
+      fr: '`Notification` correspond au toast LumApps (processus applicatif, coin inférieur droit). La politesse suit la variante : `info` et `success` en `role="status"`, `warning` et `danger` en `role="alert"` (ADR 0002). La file et l’auto-dismiss relèvent de Toast (DS-033).',
+      en: '`Notification` maps to the LumApps toast (app process, bottom-right corner). Politeness follows the variant: `info` and `success` use `role="status"`, `warning` and `danger` use `role="alert"` (ADR 0002). Queue and auto-dismiss belong to Toast (DS-033).',
     },
     variants: { fr: 'Variantes', en: 'Variants' },
     variantsBody: {
@@ -2495,8 +2495,8 @@ export const docsCopy = {
       en: 'Like LumApps « Info with callback »: `actionLabel` + `onActionClick` show a secondary button on the same row.',
     },
     a11yBody: {
-      fr: 'Toujours `role="alert"`. LumApps recommande de déplacer le focus vers l’action cliquable si besoin, puis de le restaurer à la fermeture.',
-      en: 'Always `role="alert"`. LumApps recommends moving focus to a clickable action when needed, then restoring it on dismiss.',
+      fr: '`role="status"` pour `info` et `success`, `role="alert"` pour `warning` et `danger` : annoncer « Enregistré » en assertif couperait la parole au lecteur d’écran pour rien. Le composant ne prend jamais le focus lui-même.',
+      en: '`role="status"` for `info` and `success`, `role="alert"` for `warning` and `danger`: announcing “Saved” assertively would cut the screen reader off for nothing. The component never takes focus itself.',
     },
     doCorner: {
       fr: 'Positionner la notification en bas à droite (l’app ou le futur `ToastProvider`)',
@@ -2526,8 +2526,8 @@ export const docsCopy = {
     },
     default: { fr: 'Par défaut', en: 'Default' },
     defaultBody: {
-      fr: 'Appelez `toast({ message, variant })` depuis un handler. Le focus reste sur le déclencheur.',
-      en: 'Call `toast({ message, variant })` from a handler. Focus stays on the trigger.',
+      fr: 'Appelez `toast({ message, variant })` depuis un handler. Le focus reste sur le déclencheur. Un toast minuté n’affiche pas de bouton fermer : il disparaîtrait sous le doigt de l’utilisateur au clavier.',
+      en: 'Call `toast({ message, variant })` from a handler. Focus stays on the trigger. A timed toast shows no close button: it would vanish from under a keyboard user’s finger.',
     },
     variants: { fr: 'Variantes', en: 'Variants' },
     variantsBody: {
@@ -2536,22 +2536,22 @@ export const docsCopy = {
     },
     action: { fr: 'Avec action', en: 'With action' },
     actionBody: {
-      fr: '`actionLabel` + `onActionClick` pour un rappel non bloquant (comme LumApps « Info with callback »).',
-      en: '`actionLabel` + `onActionClick` for a non-blocking follow-up (like LumApps « Info with callback »).',
+      fr: '`actionLabel` + `onActionClick` pour un rappel non bloquant (comme LumApps « Info with callback »). Un toast qui porte une action **ne s’auto-ferme pas** et devient fermable : à six secondes, le bouton disparaissait avant qu’un utilisateur au clavier l’atteigne (2.2.1). Passer `duration` reprend la main.',
+      en: '`actionLabel` + `onActionClick` for a non-blocking follow-up (like LumApps « Info with callback »). A toast carrying an action **does not auto-dismiss** and becomes dismissible: at six seconds the button was gone before a keyboard user could reach it (2.2.1). Passing `duration` takes the decision back.',
     },
     queue: { fr: 'File d’attente', en: 'Queue' },
     queueBody: {
-      fr: '`maxVisible` limite les toasts affichés ; les suivants attendent et apparaissent au dismiss ou à l’auto-dismiss du précédent.',
-      en: '`maxVisible` caps visible toasts; extras wait and appear when a toast is dismissed or auto-dismissed.',
+      fr: '`maxVisible` limite les toasts affichés ; les suivants attendent et apparaissent au dismiss ou à l’auto-dismiss du précédent. Un toast persistant garde donc sa place tant qu’il n’est pas fermé — c’est aussi pour ça qu’un toast n’est jamais le seul endroit où un message existe.',
+      en: '`maxVisible` caps visible toasts; extras wait and appear when a toast is dismissed or auto-dismissed. A persistent toast therefore holds its slot until it is closed — one more reason a toast is never the only place a message lives.',
     },
     dismissible: { fr: 'Fermable', en: 'Dismissible' },
     dismissibleBody: {
-      fr: '`toast({ dismissible: true })` affiche le bouton fermer de `Notification`. Combinez avec `duration: 0` pour un toast persistant, ou laissez l’auto-dismiss (~6 s).',
-      en: '`toast({ dismissible: true })` shows the `Notification` close button. Pair with `duration: 0` for a persistent toast, or keep auto-dismiss (~6 s).',
+      fr: '`toast({ dismissible: true })` affiche le bouton fermer de `Notification`. Combinez avec `duration: 0` pour un toast persistant, ou laissez l’auto-dismiss (~6 s). Un toast porteur d’action est fermable d’office : sans auto-fermeture, il faut bien pouvoir le faire partir.',
+      en: '`toast({ dismissible: true })` shows the `Notification` close button. Pair with `duration: 0` for a persistent toast, or keep auto-dismiss (~6 s). A toast carrying an action is dismissible by default: with no auto-dismiss, something has to make it go away.',
     },
     a11yBody: {
-      fr: 'Annonce via `role="alert"` sur `Notification`, sans voler le focus. `duration: 0` garde le toast jusqu’à fermeture manuelle (`dismissible`). `prefers-reduced-motion` n’empêche pas le dismiss.',
-      en: 'Announced via `Notification`’s `role="alert"` without stealing focus. `duration: 0` keeps the toast until manual dismiss (`dismissible`). `prefers-reduced-motion` does not block dismiss.',
+      fr: 'L’annonce passe par le rôle que `Notification` tire de la variante — `status` pour `info` et `success`, `alert` pour `warning` et `danger` — sans voler le focus. `duration: 0` garde le toast jusqu’à fermeture manuelle (`dismissible`). `prefers-reduced-motion` n’empêche pas le dismiss.',
+      en: 'The announcement uses the role `Notification` takes from the variant — `status` for `info` and `success`, `alert` for `warning` and `danger` — without stealing focus. `duration: 0` keeps the toast until manual dismiss (`dismissible`). `prefers-reduced-motion` does not block dismiss.',
     },
     doProvider: {
       fr: 'Monter `ToastProvider` près de la racine (avec `ThemeProvider`)',
@@ -3604,6 +3604,124 @@ export const docsCopy = {
     props: {
       fr: 'Mode parties : `caption`, `stickyHeader`, `size`, `className` (conteneur de défilement). Cellules : `align`, `numeric`. Vide : `colSpan`. Mode données : `columns`, `rows`, `rowId`, plus `sort`, `search`, `selectable`, `pageSize`, `toolbar`, `loading`, `empty`. `className` vise le scroller dans les deux modes. Attributs du `<table>` transmis en mode parties.',
       en: 'Parts mode: `caption`, `stickyHeader`, `size`, `className` (scroll container). Cells: `align`, `numeric`. Empty: `colSpan`. Data mode: `columns`, `rows`, `rowId`, plus `sort`, `search`, `selectable`, `pageSize`, `toolbar`, `loading`, `empty`. `className` targets the scroller in both modes. `<table>` attributes are forwarded in parts mode.',
+    },
+  },
+  chromeNotificationPattern: {
+    seePattern: {
+      fr: 'Quand choisir cette surface plutôt qu’une autre : page **Patterns › Notifications**, et `docs/adr/0002-notifications.md` pour la décision complète.',
+      en: 'When to pick this surface over another: the **Patterns › Notifications** page, and `docs/adr/0002-notifications.md` for the full decision.',
+    },
+  },
+  notificationPattern: {
+    intro: {
+      fr: 'Trois surfaces disent « il s’est passé quelque chose » : `Alert` dans le flux, un toast en superposition, et le centre de notifications derrière une cloche. Cette page dit laquelle choisir, et la décision est écrite dans `docs/adr/0002-notifications.md`.',
+      en: 'Three surfaces say “something happened”: `Alert` in the flow, a toast on top, and the notification centre behind a bell. This page says which one to pick, and the decision is written down in `docs/adr/0002-notifications.md`.',
+    },
+    axisTitle: { fr: 'Ce qui décide', en: 'What decides' },
+    axisBody: {
+      fr: 'Pas la gravité. Une erreur peut être passagère (« Connexion rétablie ») et une information peut demander une action (« Trois copies attendent votre correction »). Ce qui décide, c’est **la durée de vie du message** et **qui le possède**.',
+      en: 'Not severity. An error can be fleeting (“Back online”) and a piece of information can demand action (“Three papers are waiting for you”). What decides is **how long the message must live** and **who owns it**.',
+    },
+    treeTitle: {
+      fr: 'Trois questions, dans cet ordre',
+      en: 'Three questions, in this order',
+    },
+    tree1: {
+      fr: '**Le message décrit-il l’état d’une zone de la page ?** Un formulaire refusé, un réglage en conflit, un tableau dégradé. → `Alert`, à côté de ce dont il parle. Il vit tant que la condition tient.',
+      en: '**Does the message describe the state of a region of the page?** A rejected form, a conflicting setting, a degraded table. → `Alert`, next to what it talks about. It lives as long as the condition holds.',
+    },
+    tree2: {
+      fr: '**Est-ce la conséquence immédiate d’un geste, sans suite à donner ?** « Enregistré », « Copié », « Trois fichiers envoyés ». → toast, via `useToast()`.',
+      en: '**Is it the immediate consequence of an action, with nothing to follow up?** “Saved”, “Copied”, “Three files sent”. → a toast, through `useToast()`.',
+    },
+    tree3: {
+      fr: '**Sinon**, le message vient d’ailleurs — un autre utilisateur, une tâche de fond, le serveur — et doit survivre au rechargement. → centre de notifications.',
+      en: '**Otherwise** the message comes from elsewhere — another user, a background job, the server — and must survive a reload. → the notification centre.',
+    },
+    colCase: { fr: 'Critère', en: 'Criterion' },
+    colAlert: { fr: '`Alert`', en: '`Alert`' },
+    colToast: { fr: 'Toast', en: 'Toast' },
+    colCenter: { fr: 'Centre', en: 'Centre' },
+    rowOrigin: { fr: 'Origine', en: 'Comes from' },
+    originAlert: { fr: 'l’état d’une zone', en: 'the state of a region' },
+    originToast: { fr: 'un geste de l’utilisateur', en: 'something the user just did' },
+    originCenter: { fr: 'un événement extérieur', en: 'an outside event' },
+    rowLife: { fr: 'Durée de vie', en: 'Lives for' },
+    lifeAlert: {
+      fr: 'tant que la condition tient',
+      en: 'as long as the condition holds',
+    },
+    lifeToast: { fr: 'quelques secondes', en: 'a few seconds' },
+    lifeCenter: { fr: 'jusqu’à traitement', en: 'until it is dealt with' },
+    rowReload: { fr: 'Survit au rechargement', en: 'Survives a reload' },
+    reloadAlert: { fr: 'oui, l’état est recalculé', en: 'yes, the state is recomputed' },
+    reloadToast: { fr: 'non', en: 'no' },
+    reloadCenter: { fr: 'oui, côté serveur', en: 'yes, server-side' },
+    rowAction: { fr: 'Peut porter la seule action', en: 'May carry the only action' },
+    rowPlace: { fr: 'Emplacement', en: 'Sits' },
+    placeAlert: { fr: 'dans le flux', en: 'in the flow' },
+    placeToast: { fr: 'superposé, coin inférieur', en: 'on top, bottom corner' },
+    placeCenter: { fr: 'derrière une cloche', en: 'behind a bell' },
+    actionAlert: { fr: 'oui', en: 'yes' },
+    actionToast: { fr: '**non**', en: '**no**' },
+    actionCenter: { fr: 'oui', en: 'yes' },
+    rulesTitle: { fr: 'Les règles', en: 'The rules' },
+    rule7: {
+      fr: 'Le bouton fermer d’un toast minuté est minuté lui aussi : il disparaît sous le doigt, et le focus retombe sur `body`. Tant que `ToastProvider` n’a pas de pause au survol et au focus, `dismissible` s’accompagne de `duration: 0`.',
+      en: 'The close button of a timed toast is timed too: it vanishes under the finger, and focus falls back to `body`. Until `ToastProvider` pauses on hover and focus, `dismissible` comes with `duration: 0`.',
+    },
+    rule1: {
+      fr: 'Un toast n’est **jamais** le seul endroit où un message existe. S’il faut agir, ou simplement pouvoir relire, le message existe aussi en `Alert` ou dans le centre. Six secondes est une limite de temps (2.2.1), et rien ne dit que l’utilisateur regardait.',
+      en: 'A toast is **never** the only place a message lives. If the user must act, or simply re-read it, the message also exists as an `Alert` or in the centre. Six seconds is a time limit (2.2.1), and nothing says the user was looking.',
+    },
+    rule2: {
+      fr: 'La politesse suit la gravité, pas la surface : `info` et `success` en `role="status"`, `warning` et `danger` en `role="alert"`. Annoncer « Enregistré » en assertif coupe la parole au lecteur d’écran pour rien.',
+      en: 'Politeness follows gravity, not the surface: `info` and `success` use `role="status"`, `warning` and `danger` use `role="alert"`. Announcing “Saved” assertively cuts the screen reader off for nothing.',
+    },
+    rule3: {
+      fr: 'Un toast qui porte une action ne s’auto-ferme pas, et devient fermable. Sinon la fonction n’est offerte que par un contrôle minuté (2.2.1). Une `duration` explicite reprend la main.',
+      en: 'A toast carrying an action does not auto-dismiss, and becomes dismissible. Otherwise the function is offered only through a timed control (2.2.1). An explicit `duration` takes the decision back.',
+    },
+    rule4: {
+      fr: 'Aucune surface ne prend le focus : une notification n’est pas une demande de l’utilisateur, l’imposer est un changement de contexte (3.2.1). Le centre ne s’ouvre jamais tout seul.',
+      en: 'No surface takes focus: a notification is not something the user asked for, and forcing it is a change of context (3.2.1). The centre never opens by itself.',
+    },
+    rule5: {
+      fr: 'Le compteur de la cloche est du texte dans le nom accessible du bouton (« Notifications, 3 non lues »), pas une pastille colorée (1.4.1).',
+      en: 'The bell’s count is text inside the button’s accessible name (“Notifications, 3 unread”), not a coloured dot (1.4.1).',
+    },
+    rule6: {
+      fr: 'Le centre ne possède pas l’état lu / non lu : il reçoit `items` et remonte `onRead` / `onReadAll`. `d-ui` ne connaît ni l’API, ni la persistance, ni ce que « lu » veut dire pour le métier.',
+      en: 'The centre does not own read state: it takes `items` and reports `onRead` / `onReadAll`. `d-ui` knows neither the API, nor the persistence, nor what “read” means to the business.',
+    },
+    centerTitle: { fr: 'Le centre de notifications', en: 'The notification centre' },
+    centerBody: {
+      fr: 'Il n’existe pas encore, et cette page fixe ce qu’il sera : un assemblage de `Popover`, `List`, `Tag` et `IconButton`, contrôlé, sans état interne — pas une primitive de plus. C’est l’arbitrage rendu sur `Spinner` et sur « Thumbnail » : deux props figées ne font pas un composant.',
+      en: 'It does not exist yet, and this page fixes what it will be: an assembly of `Popover`, `List`, `Tag` and `IconButton`, controlled, with no internal state — not one more primitive. That is the call made on `Spinner` and on “Thumbnail”: two frozen props do not make a component.',
+    },
+    doAlert: {
+      fr: 'Doubler un toast d’erreur par un `Alert` inline sur la zone concernée',
+      en: 'Back an error toast with an inline `Alert` on the region concerned',
+    },
+    doVariant: {
+      fr: 'Choisir la variante d’après la gravité réelle : elle décide de l’annonce',
+      en: 'Pick the variant from the real gravity: it decides the announcement',
+    },
+    doQuiet: {
+      fr: 'Laisser le focus où il est, et le centre fermé',
+      en: 'Leave focus where it is, and the centre closed',
+    },
+    dontOnly: {
+      fr: 'Mettre une action irréversible dans un toast et nulle part ailleurs',
+      en: 'Put an irreversible action in a toast and nowhere else',
+    },
+    dontSpam: {
+      fr: 'Envoyer un toast par élément d’une boucle',
+      en: 'Fire one toast per item of a loop',
+    },
+    dontLog: {
+      fr: 'Faire du centre un journal : il se remplit, l’utilisateur cesse de l’ouvrir',
+      en: 'Turn the centre into a log: it fills up, and the user stops opening it',
     },
   },
 } as const;
