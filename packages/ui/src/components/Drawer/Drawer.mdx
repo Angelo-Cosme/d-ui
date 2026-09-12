@@ -1,0 +1,93 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import { H2, H3, P, Ul } from '../../../.storybook/docs-i18n';
+import * as DrawerStories from './Drawer.stories';
+
+<Meta of={DrawerStories} />
+
+# Drawer
+
+<P k="drawer.intro" />
+
+<P k="chrome.examplesFollow" />
+
+<Canvas of={DrawerStories.Default} />
+
+<H2 k="drawer.composition" />
+
+<P k="drawer.compositionBody" />
+
+<H2 k="drawer.sides" />
+
+<P k="drawer.useSides" />
+
+<Canvas of={DrawerStories.Sides} />
+
+<H2 k="chrome.sizes" />
+
+<P k="drawer.useSizes" />
+
+<Canvas of={DrawerStories.Sizes} />
+
+<H2 k="drawer.filters" />
+
+<P k="drawer.useFilters" />
+
+<Canvas of={DrawerStories.Filters} />
+
+<H2 k="drawer.dismiss" />
+
+<P k="drawer.useDismiss" />
+
+<Canvas of={DrawerStories.WithoutDismiss} />
+
+<H2 k="drawer.initialFocus" />
+
+<P k="drawer.useInitialFocus" />
+
+<Canvas of={DrawerStories.InitialFocus} />
+
+<H2 k="drawer.mobileNav" />
+
+<P k="drawer.useMobileNav" />
+
+<Canvas of={DrawerStories.MobileNavigation} />
+
+<H2 k="chrome.accessibility" />
+
+<P k="drawer.a11yBody" />
+
+<P k="drawer.a11yKeys" />
+
+<H3 k="chrome.do" />
+
+<Ul items={['drawer.doTitle', 'drawer.doExit', 'drawer.doSide']} />
+
+<H3 k="chrome.dont" />
+
+<Ul items={['drawer.dontStack', 'drawer.dontTrap', 'drawer.dontDecision']} />
+
+<P k="chrome.themeLang" />
+
+<H2 k="chrome.properties" />
+
+<P k="drawer.propsBody" />
+
+<ArgTypes
+  of={DrawerStories}
+  include={[
+    'open',
+    'onOpenChange',
+    'side',
+    'size',
+    'dismissible',
+    'dismissLabel',
+    'initialFocus',
+    'id',
+    'aria-label',
+    'children',
+  ]}
+/>
+
+<H3 k="drawer.partsProps" />
+
+<P k="drawer.partsPropsBody" />

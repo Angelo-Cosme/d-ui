@@ -29,6 +29,7 @@ import {
   paginationCopy,
   menuCopy,
   dialogCopy,
+  drawerCopy,
   loadingCopy,
   alertCopy,
   notificationCopy,
@@ -180,6 +181,11 @@ const ENGLISH_HEADINGS = [
   'Remote search',
   'States',
   'Keyboard shortcut',
+  'Anchor side',
+  'Filter panel',
+  'Dismiss button',
+  'Initial focus',
+  'Mobile navigation',
 ];
 
 function collectMdx(dir: string): string[] {
@@ -220,6 +226,7 @@ describe('docs locale', () => {
     expect(keysOf(paginationCopy('fr'))).toEqual(keysOf(paginationCopy('en')));
     expect(keysOf(menuCopy('fr'))).toEqual(keysOf(menuCopy('en')));
     expect(keysOf(dialogCopy('fr'))).toEqual(keysOf(dialogCopy('en')));
+    expect(keysOf(drawerCopy('fr'))).toEqual(keysOf(drawerCopy('en')));
     expect(keysOf(loadingCopy('fr'))).toEqual(keysOf(loadingCopy('en')));
     expect(keysOf(alertCopy('fr'))).toEqual(keysOf(alertCopy('en')));
     expect(keysOf(notificationCopy('fr'))).toEqual(keysOf(notificationCopy('en')));

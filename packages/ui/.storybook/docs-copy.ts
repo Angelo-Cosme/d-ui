@@ -1716,6 +1716,88 @@ export const docsCopy = {
       en: 'Aligns the footer’s bottom corners with the `Dialog` `radius`.',
     },
   },
+  drawer: {
+    title: { fr: 'Drawer', en: 'Drawer' },
+    intro: {
+      fr: '`Drawer` est un `Dialog` posé sur un bord de l’écran : filtres, navigation mobile, fiche de détail — tout ce qui se consulte sans quitter la page. Il en reprend les garanties (focus enfermé, reste de la page inerte, `Escape`, retour du focus) et les pièces (`DrawerTitle`, `DrawerBody`, `DrawerActions`). Il est **contrôlé** — `open` et `onOpenChange`. Pour une décision qui interrompt, c’est `Dialog` ; pour la navigation d’une coquille d’application, `Sidebar` a son propre mode `overlay`.',
+      en: '`Drawer` is a `Dialog` anchored to a screen edge: filters, mobile navigation, a detail sheet — anything you consult without leaving the page. It keeps the same guarantees (trapped focus, inert page, `Escape`, focus restored) and the same parts (`DrawerTitle`, `DrawerBody`, `DrawerActions`). It is **controlled** — `open` and `onOpenChange`. For a decision that interrupts, use `Dialog`; for an application shell’s navigation, `Sidebar` has its own `overlay` mode.',
+    },
+    composition: { fr: 'Composition', en: 'Composition' },
+    compositionBody: {
+      fr: 'Les pièces sont celles de `Dialog`, sous leur nom de panneau : `DrawerHeader`, `DrawerTitle`, `DrawerDescription`, `DrawerBody`, `DrawerActions`. Ce sont les mêmes composants — mêmes propriétés, même enregistrement automatique de `aria-labelledby` et `aria-describedby`, même contrat sur l’ordre des actions : la confirmation en dernier.',
+      en: 'The parts are those of `Dialog`, under their panel name: `DrawerHeader`, `DrawerTitle`, `DrawerDescription`, `DrawerBody`, `DrawerActions`. They are the same components — same props, same automatic `aria-labelledby` and `aria-describedby`, same contract on the order of actions: confirmation last.',
+    },
+    sides: { fr: 'Bord d’ancrage', en: 'Anchor side' },
+    useSides: {
+      fr: '`side` choisit le bord : `right` (défaut), `left`, `top` ou `bottom`. Le panneau occupe toute la longueur du bord et glisse depuis lui ; le fond apparaît en opacité. `left` et `right` désignent le bord physique de l’écran. Les deux animations sont retirées sous `prefers-reduced-motion: reduce`.',
+      en: '`side` picks the edge: `right` (default), `left`, `top` or `bottom`. The panel spans the whole edge and slides in from it; the backdrop fades in. `left` and `right` are the physical screen edges. Both animations are dropped under `prefers-reduced-motion: reduce`.',
+    },
+    useSizes: {
+      fr: '`size` reprend l’échelle de `Dialog` : `tiny` (400 dp), `regular` (600 dp), `big` (800 dp), `huge` (l’écran moins une marge). C’est une largeur pour `left` et `right`, une hauteur pour `top` et `bottom`. Sur petit écran, le panneau occupe tout le bord ; la croix reste sa sortie.',
+      en: '`size` reuses the `Dialog` scale: `tiny` (400 dp), `regular` (600 dp), `big` (800 dp), `huge` (the screen minus a margin). It is a width for `left` and `right`, a height for `top` and `bottom`. On a small screen the panel fills its edge; the dismiss button remains its exit.',
+    },
+    filters: { fr: 'Panneau de filtres', en: 'Filter panel' },
+    useFilters: {
+      fr: 'Le cas typique. `DrawerHeader` garde le titre en haut, `DrawerBody` défile, `DrawerActions` avec `surface` ancre Réinitialiser et Appliquer en bas — la confirmation en dernier, comme dans `Dialog`. Le formulaire vit dans le corps, ses boutons dans les actions via `form="…"`.',
+      en: 'The typical case. `DrawerHeader` keeps the title at the top, `DrawerBody` scrolls, `DrawerActions` with `surface` anchors Reset and Apply at the bottom — confirmation last, as in `Dialog`. The form lives in the body, its buttons in the actions through `form="…"`.',
+    },
+    dismiss: { fr: 'Croix de fermeture', en: 'Dismiss button' },
+    useDismiss: {
+      fr: 'La croix est présente par défaut : un panneau latéral n’a souvent pas d’actions, elle est sa sortie visible à la souris et au toucher. Passez `dismissible={false}` quand `DrawerActions` porte la sortie. `Escape` et le clic sur le fond restent actifs dans les deux cas.',
+      en: 'The dismiss button is there by default: a side panel often has no actions, and the button is its visible exit for mouse and touch. Pass `dismissible={false}` when `DrawerActions` carries the exit. `Escape` and the backdrop click stay live either way.',
+    },
+    initialFocus: { fr: 'Focus initial', en: 'Initial focus' },
+    useInitialFocus: {
+      fr: 'À l’ouverture, le focus va sur le premier contrôle focusable. `initialFocus` désigne un autre élément — ici le champ que l’on est venu remplir, pas le sélecteur qui le précède. À la fermeture, le focus revient au déclencheur.',
+      en: 'On opening, focus lands on the first focusable control. `initialFocus` points at another element — here the field you came to fill, not the select before it. On close, focus returns to the trigger.',
+    },
+    mobileNav: { fr: 'Navigation mobile', en: 'Mobile navigation' },
+    useMobileNav: {
+      fr: '`Navbar` fournit le bouton menu (`aria-haspopup="dialog"`, `aria-expanded`, `aria-controls`) ; un `Drawer` ancré à gauche porte la navigation, et `id` relie les deux. La croix prend un nom dans la langue de la page avec `dismissLabel`. Les liens vivent dans un `nav` nommé, dans `DrawerBody` : de vrais `<a href>`, l’app calcule les routes. `Sidebar` garde son mode `overlay` pour une coquille d’application ; `Drawer` sert dès que le panneau mobile mêle navigation et autres contenus, ou s’ouvre depuis un autre bord.',
+      en: '`Navbar` provides the menu button (`aria-haspopup="dialog"`, `aria-expanded`, `aria-controls`); a `Drawer` anchored to the left carries the navigation, and `id` links the two. The dismiss button gets a page-language name through `dismissLabel`. The links live in a named `nav`, inside `DrawerBody`: real `<a href>`s, the app computes the routes. `Sidebar` keeps its `overlay` mode for an application shell; `Drawer` is for a mobile panel that mixes navigation with other content, or opens from another edge.',
+    },
+    a11yBody: {
+      fr: 'Le panneau a `role="dialog"`, un nom pris sur `DrawerTitle` — à défaut `aria-label` — et, s’il y en a une, une description prise sur `DrawerDescription`. Le focus est enfermé dans le panneau, le reste de la page devient inerte, le défilement du fond est bloqué, et le focus revient à l’élément déclencheur à la fermeture : les mêmes garanties que `Dialog`, par le même mécanisme.',
+      en: 'The panel has `role="dialog"`, a name taken from `DrawerTitle` — or `aria-label` — and, when present, a description taken from `DrawerDescription`. Focus is trapped in the panel, the rest of the page turns inert, background scrolling is locked, and focus returns to the trigger on close: the same guarantees as `Dialog`, through the same mechanism.',
+    },
+    a11yKeys: {
+      fr: 'Tab et Maj+Tab tournent dans le panneau. `Escape` ferme, toujours. Le clic sur le fond ferme. Il n’y a pas de geste de balayage : la croix, le fond et `Escape` suffisent, et fonctionnent au clavier comme au toucher. Le portail recopie `data-d-ui-theme`.',
+      en: 'Tab and Shift+Tab cycle inside the panel. `Escape` always closes. The backdrop click closes. There is no swipe gesture: the dismiss button, the backdrop and `Escape` are enough, and work with a keyboard as with touch. The portal copies `data-d-ui-theme`.',
+    },
+    doTitle: {
+      fr: 'Un `DrawerTitle`, ou à défaut `aria-label` sur le `Drawer`',
+      en: 'A `DrawerTitle`, or failing that `aria-label` on the `Drawer`',
+    },
+    doExit: {
+      fr: 'Une sortie visible : la croix par défaut, ou des `DrawerActions` si vous la retirez',
+      en: 'A visible exit: the default dismiss button, or `DrawerActions` if you remove it',
+    },
+    doSide: {
+      fr: '`left` ou `right` pour une navigation ou des filtres, `bottom` pour une courte liste d’options à portée de pouce',
+      en: '`left` or `right` for navigation or filters, `bottom` for a short list of options within thumb reach',
+    },
+    dontStack: {
+      fr: 'Ouvrir un `Drawer` depuis un `Drawer` ou un `Dialog` : l’empilement n’est pas supporté',
+      en: 'Opening a `Drawer` from a `Drawer` or a `Dialog`: stacking is not supported',
+    },
+    dontTrap: {
+      fr: 'Retirer `Escape` pour garder le panneau ouvert — c’est un piège clavier',
+      en: 'Removing `Escape` to keep the panel open — that is a keyboard trap',
+    },
+    dontDecision: {
+      fr: 'Une décision destructive dans un `Drawer` : c’est `Dialog` avec `alert`',
+      en: 'A destructive decision in a `Drawer`: that is `Dialog` with `alert`',
+    },
+    propsBody: {
+      fr: '`Drawer` est contrôlé comme `Dialog` : `open` et `onOpenChange` sont obligatoires, et `onOpenChange` reçoit `false` sur `Escape`, clic sur le fond ou croix. `id` sert à `aria-controls` sur le déclencheur.',
+      en: '`Drawer` is controlled like `Dialog`: `open` and `onOpenChange` are required, and `onOpenChange` receives `false` on `Escape`, backdrop click or the dismiss button. `id` feeds `aria-controls` on the trigger.',
+    },
+    partsProps: { fr: 'Propriétés des pièces', en: 'Parts props' },
+    partsPropsBody: {
+      fr: 'Les pièces acceptent les mêmes propriétés que leurs homologues de `Dialog` — `DrawerTitle` : `level` ; `DrawerActions` : `align` et `surface`. L’ordre des enfants reste un contrat : la confirmation en dernier.',
+      en: 'The parts take the same props as their `Dialog` counterparts — `DrawerTitle`: `level`; `DrawerActions`: `align` and `surface`. The order of the children remains a contract: confirmation last.',
+    },
+  },
   popover: {
     title: { fr: 'Popover', en: 'Popover' },
     intro: {
@@ -2842,8 +2924,8 @@ export const docsCopy = {
   },
   sidebar: {
     intro: {
-      fr: '`Sidebar` est la navigation latérale d’une coquille (`<nav>` + liste). Les items viennent de l’app (`href`). Pour une superposition mobile, `overlay` + `Navbar` (bouton menu). Ce n’est pas un `Drawer` (DS-038).',
-      en: '`Sidebar` is the shell side navigation (`<nav>` + list). Items come from the app (`href`). For a mobile overlay, `overlay` + `Navbar` (menu button). It is not a `Drawer` (DS-038).',
+      fr: '`Sidebar` est la navigation latérale d’une coquille (`<nav>` + liste). Les items viennent de l’app (`href`). Pour une superposition mobile, `overlay` + `Navbar` (bouton menu). Pour un panneau générique (filtres, fiche de détail), voir `Drawer`.',
+      en: '`Sidebar` is the shell side navigation (`<nav>` + list). Items come from the app (`href`). For a mobile overlay, `overlay` + `Navbar` (menu button). For a generic panel (filters, a detail sheet), see `Drawer`.',
     },
     iconsBody: {
       fr: '`icon` est décorative. Le libellé reste le nom accessible. En mode replié, le texte passe dans `VisuallyHidden` : l’item icône seule garde un nom.',

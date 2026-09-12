@@ -8,8 +8,6 @@ import {
   useRole,
 } from '@floating-ui/react';
 import {
-  Children,
-  isValidElement,
   useCallback,
   useId,
   useMemo,
@@ -19,39 +17,17 @@ import {
   type ReactNode,
 } from 'react';
 import { cx } from '../../lib/cx';
-import { IconButton } from '../Button/IconButton';
-import { CloseGlyph } from '../feedback/FeedbackIcons';
 import {
   overlayPortalProps,
   useInheritedTheme,
   usePrefersReducedMotion,
 } from '../floating';
 import {
-  DialogContext,
   dialogRadiusClass,
   type DialogContextValue,
   type DialogRadius,
 } from './DialogContext';
-import { DialogActions, DialogBody } from './DialogParts';
-
-function partitionDialogChildren(children: ReactNode) {
-  const content: ReactNode[] = [];
-  const actions: ReactNode[] = [];
-  let hasBody = false;
-
-  Children.forEach(children, (child) => {
-    if (isValidElement(child) && child.type === DialogActions) {
-      actions.push(child);
-    } else if (isValidElement(child) && child.type === DialogBody) {
-      hasBody = true;
-      content.push(child);
-    } else if (child != null && child !== false) {
-      content.push(child);
-    }
-  });
-
-  return { content, actions, hasBody };
-}
+import { DialogFrame } from './DialogFrame';
 
 /** Tailles LumApps : tiny (400dp), regular (600dp), big (800dp), huge (plein écran). */
 export type DialogSize = 'tiny' | 'regular' | 'big' | 'huge';
@@ -107,7 +83,8 @@ const sizeClass: Record<DialogSize, string> = {
  * Le piège de focus, la restitution du focus, le verrouillage du défilement et
  * l'inertie du reste de la page viennent de `@floating-ui/react`, déjà utilisé
  * par `Popover` et `Menu` — les overlays du design system partagent la même
- * mécanique plutôt que chacun la sienne.
+ * mécanique plutôt que chacun la sienne. L'intérieur du panneau
+ * (`DialogFrame`) est partagé avec `Drawer`.
  *
  * L'empilement n'est pas supporté : un `Dialog` n'en ouvre pas un second.
  */
@@ -154,11 +131,6 @@ export function Dialog({
     firstActionRef.current = element;
   }, []);
   const showDismiss = dismissible && !alert && !processing;
-  const { content, actions, hasBody } = useMemo(
-    () => partitionDialogChildren(children),
-    [children],
-  );
-  const footer = actions.length > 0 ? actions : [];
 
   const value = useMemo<DialogContextValue>(
     () => ({
@@ -220,46 +192,9 @@ export function Dialog({
                   className,
                 )}
               >
-                <DialogContext.Provider value={value}>
-                  <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-                    <div
-                      className={cx(
-                        'flex min-h-0 flex-1 flex-col px-6 pt-6',
-                        hasBody ? 'overflow-hidden' : 'overflow-y-auto',
-                        footer.length > 0 ? 'pb-0' : 'pb-6',
-                      )}
-                    >
-                      {content}
-                    </div>
-                    {footer}
-                  </div>
-                  {showDismiss ? (
-                    <IconButton
-                      type="button"
-                      size="sm"
-                      variant="ghost"
-                      icon={<CloseGlyph />}
-                      aria-label={dismissLabel}
-                      onClick={close}
-                      className="absolute end-4 top-4 z-10 shrink-0"
-                    />
-                  ) : null}
-                  {processing ? (
-                    <div
-                      className={cx(
-                        'bg-bg/70 absolute inset-0 grid place-items-center backdrop-blur-[1px]',
-                        dialogRadiusClass[radius],
-                      )}
-                      aria-hidden="true"
-                    >
-                      {/* Décoratif : le panneau porte déjà `aria-busy`. */}
-                      <span
-                        className="d-ui-spinner text-brand inline-block size-8 shrink-0 border-[3px]"
-                        aria-hidden="true"
-                      />
-                    </div>
-                  ) : null}
-                </DialogContext.Provider>
+                <DialogFrame value={value} processing={processing}>
+                  {children}
+                </DialogFrame>
               </div>
             </FloatingFocusManager>
           </FloatingOverlay>

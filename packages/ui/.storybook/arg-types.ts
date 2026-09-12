@@ -390,6 +390,58 @@ export const dialogArgTypes = {
   },
 };
 
+export const drawerArgTypes = {
+  open: {
+    control: 'boolean' as const,
+    description: 'Ouverture contrôlée. Comme `Dialog`, pas de mode non contrôlé.',
+  },
+  onOpenChange: {
+    control: { disable: true },
+    description:
+      'Appelé avec `false` sur Escape, clic sur le fond ou croix de fermeture. C’est vous qui refermez.',
+  },
+  side: {
+    control: 'select' as const,
+    options: ['left', 'right', 'top', 'bottom'],
+    description:
+      'Bord d’ancrage du panneau. `left` / `right` désignent le bord physique de l’écran. Défaut : `right`.',
+  },
+  size: {
+    control: 'select' as const,
+    options: ['tiny', 'regular', 'big', 'huge'],
+    description:
+      'Même échelle que `Dialog` : `tiny` (400 dp), `regular` (600 dp), `big` (800 dp), `huge` (l’écran moins une marge). Une largeur pour `left` / `right`, une hauteur pour `top` / `bottom`. Sur petit écran, le panneau occupe tout le bord. Défaut : `regular`.',
+  },
+  dismissible: {
+    control: 'boolean' as const,
+    description:
+      'Croix de fermeture en haut à droite. Défaut : `true` — un panneau sans actions garde ainsi une sortie visible à la souris et au toucher. Escape et le clic sur le fond restent actifs dans tous les cas.',
+  },
+  dismissLabel: {
+    description: 'Nom accessible de la croix. Défaut : `"Fermer"`.',
+  },
+  initialFocus: {
+    control: { disable: true },
+    description:
+      'Ref de l’élément qui prend le focus à l’ouverture. Par défaut, le premier contrôle focusable.',
+  },
+  id: {
+    control: { disable: true },
+    description:
+      '`id` du panneau, à reprendre dans `aria-controls` sur le déclencheur (`Navbar` : `menuControls`).',
+  },
+  'aria-label': {
+    control: { disable: true },
+    description:
+      'Nom accessible du panneau. Requis seulement si aucun `DrawerTitle` n’est rendu : le titre visible prime.',
+  },
+  children: {
+    control: { disable: true },
+    description:
+      'Contenu : `DrawerHeader`, `DrawerTitle`, `DrawerDescription`, `DrawerBody`, `DrawerActions` — les pièces de `Dialog`, sous leur nom de panneau.',
+  },
+};
+
 export const skeletonArgTypes = {
   shape: {
     control: 'select' as const,

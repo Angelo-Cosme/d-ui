@@ -314,7 +314,7 @@ describe('Dialog', () => {
       return null;
     }
     expect(() => render(<Orphan />)).toThrow(
-      '<DialogTitle> doit être rendu à l’intérieur de <Dialog>.',
+      '<DialogTitle> doit être rendu à l’intérieur de <Dialog> ou <Drawer>.',
     );
     error.mockRestore();
   });
