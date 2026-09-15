@@ -3606,6 +3606,98 @@ export const docsCopy = {
       en: 'Parts mode: `caption`, `stickyHeader`, `size`, `className` (scroll container). Cells: `align`, `numeric`. Empty: `colSpan`. Data mode: `columns`, `rows`, `rowId`, plus `sort`, `search`, `selectable`, `pageSize`, `toolbar`, `loading`, `empty`. `className` targets the scroller in both modes. `<table>` attributes are forwarded in parts mode.',
     },
   },
+  commandMenu: {
+    title: { fr: 'CommandMenu', en: 'CommandMenu' },
+    intro: {
+      fr: '`CommandMenu` est une palette de commandes : un `Dialog` qui s’ouvre sur un champ de recherche et une liste de commandes filtrée à la frappe. Il est **contrôlé** (`open` / `onOpenChange`) et n’exécute rien lui-même : il émet `onSelect` avec la commande choisie, puis demande la fermeture. Le registre des commandes, le raccourci ⌘K et la navigation restent dans l’application — pas de routeur, pas de gestionnaire global de raccourcis dans le package. Pour un menu d’actions attaché à un bouton, importez `Menu`.',
+      en: '`CommandMenu` is a command palette: a `Dialog` that opens on a search field and a list of commands filtered as you type. It is **controlled** (`open` / `onOpenChange`) and runs nothing itself: it emits `onSelect` with the chosen command, then asks to close. The command registry, the ⌘K shortcut, and navigation stay in the app — no router and no global shortcut manager in the package. For an action menu attached to a button, import `Menu`.',
+    },
+    groups: { fr: 'Groupes', en: 'Groups' },
+    useGroups: {
+      fr: 'Une entrée de `items` peut être un groupe `{ label, items }`. Le libellé devient l’en-tête visible et le nom du `role="group"`. Un groupe dont aucune commande ne répond à la recherche disparaît avec son en-tête.',
+      en: 'An entry of `items` can be a group `{ label, items }`. The label becomes the visible heading and the name of the `role="group"`. A group whose commands all miss the query disappears with its heading.',
+    },
+    decorations: {
+      fr: 'Icônes, descriptions et raccourcis',
+      en: 'Icons, descriptions and shortcuts',
+    },
+    useDecorations: {
+      fr: '`icon` décore le début de la ligne (masquée aux lecteurs d’écran), `description` ajoute une seconde ligne, `shortcut` affiche le raccourci à droite dans un `kbd`. Le raccourci est **visuel** : c’est l’application qui écoute les touches.',
+      en: '`icon` decorates the start of the row (hidden from screen readers), `description` adds a second line, `shortcut` shows the shortcut on the right in a `kbd`. The shortcut is **visual**: the app listens for the keys.',
+    },
+    disabledItems: { fr: 'Éléments désactivés', en: 'Disabled items' },
+    useDisabledItems: {
+      fr: '`disabled` laisse la commande visible mais la retire du parcours clavier et du clic — l’utilisateur voit qu’elle existe et, via `description`, pourquoi elle est indisponible.',
+      en: '`disabled` keeps the command visible but takes it out of keyboard travel and click — the user sees it exists and, through `description`, why it is unavailable.',
+    },
+    filtering: { fr: 'Filtrage', en: 'Filtering' },
+    useFiltering: {
+      fr: 'Par défaut, le filtre cherche la saisie comme sous-chaîne dans `label`, `keywords` et `description`, sans tenir compte de la casse ni des accents : « creer » trouve « Créer ». `keywords` ajoute des synonymes invisibles — essayez « ajouter » ci-dessous.',
+      en: 'By default the filter looks for the query as a substring of `label`, `keywords`, and `description`, ignoring case and accents: “creer” finds “Créer”. `keywords` adds invisible synonyms — try “add” below.',
+    },
+    customFilter: { fr: 'Filtre personnalisé', en: 'Custom filter' },
+    useCustomFilter: {
+      fr: '`filter` remplace cette règle par la vôtre : un `(item, query) => boolean` qui reçoit la saisie brute. Ici, chaque mot de la saisie doit apparaître dans le libellé, dans n’importe quel ordre — essayez « devoir nouveau », que le filtre par défaut ne trouverait pas.',
+      en: '`filter` replaces that rule with yours: an `(item, query) => boolean` that receives the raw query. Here every word of the query must appear in the label, in any order — try “assignment new”, which the default filter would not find.',
+    },
+    remote: { fr: 'Recherche distante', en: 'Remote search' },
+    useRemote: {
+      fr: 'Pour une liste servie par une API, écoutez `onQueryChange`, remplacez `items` quand la réponse arrive, posez `loading` entre-temps, et neutralisez le filtre local avec `filter={() => true}` : le serveur a déjà filtré. Le client HTTP reste chez le consommateur.',
+      en: 'For an API-served list, listen to `onQueryChange`, replace `items` when the response arrives, set `loading` meanwhile, and disable the local filter with `filter={() => true}`: the server already filtered. The HTTP client stays with the consumer.',
+    },
+    states: { fr: 'États', en: 'States' },
+    empty: { fr: 'État vide', en: 'Empty state' },
+    useEmpty: {
+      fr: '`emptyMessage` s’affiche quand aucune commande ne répond à la saisie (ou que `items` est vide). Chaîne, nœud, ou fonction `(query) => …` pour citer la recherche. Le message vit dans une région `role="status"` : il est annoncé sans déplacer le focus.',
+      en: '`emptyMessage` shows when no command matches the query (or `items` is empty). String, node, or `(query) => …` function to quote the search. The message lives in a `role="status"` region: it is announced without moving focus.',
+    },
+    loading: { fr: 'Chargement', en: 'Loading' },
+    useLoading: {
+      fr: '`loading` remplace la liste par des lignes `Skeleton` et pose `aria-busy` sur la listbox. `loadingMessage` est annoncé par la même région `status`. Les commandes reviennent dès que `loading` retombe — ici, un délai simule la requête.',
+      en: '`loading` replaces the list with `Skeleton` rows and sets `aria-busy` on the listbox. `loadingMessage` is announced by the same `status` region. Commands come back as soon as `loading` drops — here a delay stands in for the request.',
+    },
+    shortcut: { fr: 'Raccourci clavier', en: 'Keyboard shortcut' },
+    useShortcut: {
+      fr: '⌘K (Ctrl+K) est une convention, pas une fonctionnalité du composant : l’application écoute `keydown` sur `window` et bascule `open`. Le package n’installe aucun gestionnaire global de raccourcis. Gardez un bouton visible : un raccourci n’est jamais le seul chemin vers la palette.',
+      en: '⌘K (Ctrl+K) is a convention, not a component feature: the app listens to `keydown` on `window` and toggles `open`. The package installs no global shortcut manager. Keep a visible button: a shortcut is never the only way to the palette.',
+    },
+    a11yBody: {
+      fr: 'Le panneau est un `Dialog` modal nommé par `label` : focus piégé, reste de la page inerte, focus rendu au déclencheur. Le champ a `role="combobox"`, `aria-expanded`, `aria-controls` vers la listbox et `aria-activedescendant` vers la commande active — le focus reste dans le champ, on continue de taper. La liste est une `<ul role="listbox">` nommée, les groupes des `role="group"` nommés, chaque commande un `<li role="option">` (`aria-selected` sur la commande active, `aria-disabled` si `disabled`). Chargement et état vide passent par une région `role="status"`.',
+      en: 'The panel is a modal `Dialog` named by `label`: focus trapped, rest of the page inert, focus returned to the trigger. The field has `role="combobox"`, `aria-expanded`, `aria-controls` to the listbox, and `aria-activedescendant` to the active command — focus stays in the field, you keep typing. The list is a named `<ul role="listbox">`, groups are named `role="group"`s, each command an `<li role="option">` (`aria-selected` on the active command, `aria-disabled` when `disabled`). Loading and the empty state go through a `role="status"` region.',
+    },
+    a11yKeys: {
+      fr: 'Taper filtre. Flèches haut / bas parcourent les commandes (en boucle, `disabled` sautées), Début / Fin vont à la première / dernière, Entrée exécute la commande active, `Escape` ferme — toujours (WCAG 2.1.2). La commande active est défilée dans la vue.',
+      en: 'Typing filters. Up / down arrows move through commands (looping, `disabled` skipped), Home / End go to the first / last, Enter runs the active command, `Escape` closes — always (WCAG 2.1.2). The active command is scrolled into view.',
+    },
+    doTrigger: {
+      fr: 'Un bouton visible qui ouvre la palette, en plus du raccourci ⌘K',
+      en: 'A visible button that opens the palette, on top of the ⌘K shortcut',
+    },
+    doLabel: {
+      fr: '`label` dans la langue de la page : il nomme le dialogue, le champ et la liste',
+      en: '`label` in the page language: it names the dialog, the field, and the list',
+    },
+    doKeywords: {
+      fr: '`keywords` pour les synonymes que l’utilisateur tapera (« créer » pour « Nouveau devoir »)',
+      en: '`keywords` for the synonyms the user will type (“create” for “New assignment”)',
+    },
+    dontRouter: {
+      fr: 'Naviguer depuis le composant : `onSelect` remonte la commande, l’application appelle son routeur',
+      en: 'Navigating from the component: `onSelect` hands the command up, the app calls its router',
+    },
+    dontShortcutOnly: {
+      fr: 'Un raccourci comme seul accès — ni bouton, ni entrée de menu',
+      en: 'A shortcut as the only access — no button, no menu entry',
+    },
+    dontRegistry: {
+      fr: 'Un registre de commandes global dans `d-ui` : `items` vient de l’application',
+      en: 'A global command registry inside `d-ui`: `items` comes from the app',
+    },
+    propsBody: {
+      fr: '`open` / `onOpenChange` et `items` / `onSelect` sont obligatoires. `filter` et `onQueryChange` couvrent la recherche distante, `loading` / `loadingMessage` et `emptyMessage` les états. `className` s’applique au panneau du `Dialog`.',
+      en: '`open` / `onOpenChange` and `items` / `onSelect` are required. `filter` and `onQueryChange` cover remote search, `loading` / `loadingMessage` and `emptyMessage` the states. `className` applies to the `Dialog` panel.',
+    },
+  },
 } as const;
 
 export type DocsCopy = typeof docsCopy;

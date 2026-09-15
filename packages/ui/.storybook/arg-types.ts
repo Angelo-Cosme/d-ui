@@ -1833,3 +1833,64 @@ export const filePreviewArgTypes = {
   },
   className: classNameArgType,
 };
+
+export const commandMenuArgTypes = {
+  open: {
+    control: 'boolean' as const,
+    description: 'Ouverture contrôlée. Comme `Dialog`, pas de mode non contrôlé.',
+  },
+  onOpenChange: {
+    control: { disable: true },
+    description:
+      'Appelé avec `false` sur Escape, clic extérieur, ou après `onSelect`. C’est vous qui refermez.',
+  },
+  items: {
+    control: { disable: true },
+    description:
+      'Commandes `{ value, label, description, icon, shortcut, keywords, disabled }` ou groupes `{ label, items }`. `value` doit être unique.',
+  },
+  onSelect: {
+    control: { disable: true },
+    description:
+      'Reçoit la commande choisie (clic ou Entrée). Le composant demande ensuite la fermeture ; l’exécution reste chez vous.',
+  },
+  label: {
+    control: 'text' as const,
+    description:
+      'Nom accessible du dialogue, du champ et de la liste. Défaut : `"Commandes"`.',
+  },
+  placeholder: {
+    control: 'text' as const,
+    description:
+      'Texte de substitution du champ. Ne remplace pas `label`. Défaut : `"Rechercher une commande"`.',
+  },
+  emptyMessage: {
+    control: { disable: true },
+    description:
+      'Aucun résultat. Chaîne, nœud, ou `(query) => …`. Annoncé via `role="status"`. Défaut : `"Aucun résultat"`.',
+  },
+  loading: {
+    control: 'boolean' as const,
+    description:
+      'Remplace la liste par des lignes `Skeleton` et pose `aria-busy`. Entrée et les flèches sont inertes pendant ce temps.',
+  },
+  loadingMessage: {
+    control: 'text' as const,
+    description:
+      'Texte annoncé pendant le chargement (région `status`, masquée). Défaut : `"Chargement"`.',
+  },
+  filter: {
+    control: { disable: true },
+    description:
+      '`(item, query) => boolean`. Remplace le filtre par défaut (sous-chaîne sans casse ni accents sur `label`, `keywords`, `description`). `() => true` pour une liste déjà filtrée côté serveur.',
+  },
+  onQueryChange: {
+    control: { disable: true },
+    description:
+      'Appelé à chaque frappe avec la saisie brute. Point d’entrée d’une recherche distante.',
+  },
+  className: {
+    ...classNameArgType,
+    description: 'Classes du panneau du `Dialog`, fusionnées en dernier avec `cx`.',
+  },
+};
