@@ -230,6 +230,11 @@ export const storyNameEn: Record<string, string> = {
   'Filtre personnalisé': 'Custom filter',
   'Recherche distante': 'Remote search',
   'Raccourci clavier': 'Keyboard shortcut',
+  'Bord d’ancrage': 'Anchor side',
+  'Panneau de filtres': 'Filter panel',
+  'Sans croix de fermeture': 'Without dismiss button',
+  'Focus initial': 'Initial focus',
+  'Navigation mobile': 'Mobile navigation',
 };
 
 const storyNameFr: Record<string, string> = Object.fromEntries(
@@ -1321,6 +1326,134 @@ export type DialogDocsCopy = typeof dialogFr;
 
 export function dialogCopy(locale: DocsLocale): DialogDocsCopy {
   return locale === 'en' ? dialogEn : dialogFr;
+}
+
+const drawerFr = {
+  open: 'Ouvrir le panneau',
+  cancel: 'Annuler',
+  detailTitle: 'Détails de la commande',
+  detailBody:
+    'Commande n° 4821, passée le 12 septembre. Trois articles, livraison prévue sous cinq jours.',
+  detailParagraph:
+    'Le panneau garde la page visible derrière lui : on consulte la fiche, on la referme, on retrouve la liste au même endroit.',
+  left: 'Gauche',
+  right: 'Droite',
+  top: 'Haut',
+  bottom: 'Bas',
+  sideTitle: 'Bord d’ancrage',
+  sideBody:
+    'Le panneau glisse depuis le bord choisi et s’y attache sur toute sa longueur.',
+  tiny: 'Tiny',
+  regular: 'Regular',
+  big: 'Big',
+  huge: 'Huge',
+  sizeTitle: 'Taille du panneau',
+  sizeBody:
+    'La même échelle que Dialog : une largeur pour un panneau latéral, une hauteur pour un panneau haut ou bas.',
+  filtersOpen: 'Filtrer',
+  filtersTitle: 'Filtres',
+  searchLabel: 'Recherche',
+  searchPlaceholder: 'Nom ou référence',
+  statusLabel: 'Statut',
+  statusAll: 'Tous',
+  statusActive: 'Actifs',
+  statusArchived: 'Archivés',
+  categoriesLabel: 'Catégories',
+  categories: ['Cours', 'Devoirs', 'Évaluations', 'Ressources', 'Annonces', 'Messages'],
+  reset: 'Réinitialiser',
+  apply: 'Appliquer',
+  addressOpen: 'Modifier l’adresse',
+  addressTitle: 'Adresse de livraison',
+  streetLabel: 'Adresse',
+  streetValue: '12 rue des Lilas',
+  cityLabel: 'Ville',
+  cityValue: 'Nantes',
+  save: 'Enregistrer',
+  noteOpen: 'Ajouter un commentaire',
+  noteTitle: 'Nouveau commentaire',
+  visibilityLabel: 'Visibilité',
+  visibilityTeam: 'Équipe',
+  visibilityPrivate: 'Privé',
+  noteLabel: 'Commentaire',
+  notePlaceholder: 'Votre remarque…',
+  noteHelper: 'Le focus arrive directement ici, pas sur le sélecteur qui précède.',
+  publish: 'Publier',
+  menu: 'Menu',
+  navLabel: 'Navigation principale',
+  openNav: 'Ouvrir la navigation',
+  closeNav: 'Fermer la navigation',
+  navLinks: ['Accueil', 'Cours', 'Devoirs', 'Messages'],
+  main: 'Contenu de la page',
+};
+
+const drawerEn = {
+  open: 'Open the panel',
+  cancel: 'Cancel',
+  detailTitle: 'Order details',
+  detailBody:
+    'Order #4821, placed on 12 September. Three items, delivery expected within five days.',
+  detailParagraph:
+    'The panel keeps the page visible behind it: you read the sheet, close it, and find the list where you left it.',
+  left: 'Left',
+  right: 'Right',
+  top: 'Top',
+  bottom: 'Bottom',
+  sideTitle: 'Anchor side',
+  sideBody: 'The panel slides in from the chosen edge and spans its whole length.',
+  tiny: 'Tiny',
+  regular: 'Regular',
+  big: 'Big',
+  huge: 'Huge',
+  sizeTitle: 'Panel size',
+  sizeBody:
+    'The same scale as Dialog: a width for a side panel, a height for a top or bottom panel.',
+  filtersOpen: 'Filter',
+  filtersTitle: 'Filters',
+  searchLabel: 'Search',
+  searchPlaceholder: 'Name or reference',
+  statusLabel: 'Status',
+  statusAll: 'All',
+  statusActive: 'Active',
+  statusArchived: 'Archived',
+  categoriesLabel: 'Categories',
+  categories: [
+    'Courses',
+    'Assignments',
+    'Assessments',
+    'Resources',
+    'Announcements',
+    'Messages',
+  ],
+  reset: 'Reset',
+  apply: 'Apply',
+  addressOpen: 'Edit address',
+  addressTitle: 'Delivery address',
+  streetLabel: 'Address',
+  streetValue: '12 Lilac Street',
+  cityLabel: 'City',
+  cityValue: 'Nantes',
+  save: 'Save',
+  noteOpen: 'Add a comment',
+  noteTitle: 'New comment',
+  visibilityLabel: 'Visibility',
+  visibilityTeam: 'Team',
+  visibilityPrivate: 'Private',
+  noteLabel: 'Comment',
+  notePlaceholder: 'Your remark…',
+  noteHelper: 'Focus lands right here, not on the select before it.',
+  publish: 'Publish',
+  menu: 'Menu',
+  navLabel: 'Main navigation',
+  openNav: 'Open navigation',
+  closeNav: 'Close navigation',
+  navLinks: ['Home', 'Courses', 'Assignments', 'Messages'],
+  main: 'Page content',
+};
+
+export type DrawerDocsCopy = typeof drawerFr;
+
+export function drawerCopy(locale: DocsLocale): DrawerDocsCopy {
+  return locale === 'en' ? drawerEn : drawerFr;
 }
 
 const loadingFr = {

@@ -197,6 +197,72 @@
   }
 }
 
+/*
+ * Ouverture du Drawer. Le fond reprend le fondu du Dialog (`.d-ui-dialog-overlay`) ;
+ * le panneau glisse depuis le bord où il est ancré. La distance est sa propre
+ * taille (100 %) : il part exactement du hors-champ, quel que soit `size`.
+ */
+@keyframes d-ui-drawer-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes d-ui-drawer-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes d-ui-drawer-in-top {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes d-ui-drawer-in-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.d-ui-drawer-panel-left {
+  animation: d-ui-drawer-in-left 0.2s ease-out;
+}
+
+.d-ui-drawer-panel-right {
+  animation: d-ui-drawer-in-right 0.2s ease-out;
+}
+
+.d-ui-drawer-panel-top {
+  animation: d-ui-drawer-in-top 0.2s ease-out;
+}
+
+.d-ui-drawer-panel-bottom {
+  animation: d-ui-drawer-in-bottom 0.2s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .d-ui-drawer-panel-left,
+  .d-ui-drawer-panel-right,
+  .d-ui-drawer-panel-top,
+  .d-ui-drawer-panel-bottom {
+    animation: none !important;
+  }
+}
+
 .d-ui-tooltip-arrow {
   fill: var(--d-ui-color-fg);
 }

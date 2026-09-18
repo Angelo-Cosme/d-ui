@@ -49,16 +49,17 @@ Une exception AA exige un sign-off Accessibilité **et** une décision produit �
 34. `Image` / `FilePreview` : `alt` est **obligatoire** sur `Image`, et `""` en est une valeur légitime — c'est ainsi qu'on déclare une image décorative. Sans `alt` du tout, un lecteur d'écran lit le nom du fichier (1.1.1). Avec `ratio` — ou `width` et `height` ensemble — le cadre réserve la place avant le chargement, donc la page ne saute pas ; en `ratio="auto"` sans hauteur, elle saute. Quand le fichier ne charge pas, aucun `<img>` cassé n'est rendu : le repli devient une `role="img"` nommée par le même `alt`, et une image décorative reste silencieuse. Chargement paresseux par défaut ; `loading="eager"` pour une image visible d'emblée. `FilePreview` : le **nom du fichier** est le texte visible, la miniature est décorative (`alt=""`) — sinon le lecteur d'écran lit deux fois la même chose. Le bouton de retrait cite le fichier, jamais « Retirer » seul. Un refus s'accompagne d'un glyphe, pas de la seule couleur (1.4.1). L'URL objet de la miniature est créée **et révoquée** par le composant. `FileUpload` garde une `<ul>` nommée quelle que soit la forme (`list`, `grid`) : c'est elle qui fait annoncer « liste, n éléments ».
 
 35. `CommandMenu` : palette de commandes = `Dialog` modal contrôlé nommé par `label` (focus piégé, rendu au déclencheur, `Escape` ferme toujours). Champ `role="combobox"` + `aria-expanded` / `aria-controls` / `aria-activedescendant` : le focus reste dans le champ. Liste `<ul role="listbox">` nommée, groupes `role="group"` nommés, commandes `<li role="option">` (`aria-selected` = active, `aria-disabled` sautée au clavier et au clic). Flèches (boucle), Début / Fin, Entrée exécute ; la commande active est défilée dans la vue. `loading` : lignes `Skeleton` + `aria-busy` + `loadingMessage` ; `emptyMessage` : région `role="status"` toujours montée. `icon` et `shortcut` sont visuels. ⌘K et la navigation restent dans l’application, avec un bouton visible obligatoire ; pas de routeur ni de registre de commandes dans le package.
+36. `Drawer` : `Dialog` ancré à un bord (`side` : `left` / `right` / `top` / `bottom` ; `size` : l’échelle de `Dialog`, largeur ou hauteur selon le bord), même mécanique et mêmes garanties — `role="dialog"`, nom pris sur `DrawerTitle` (à défaut `aria-label`), description sur `DrawerDescription`, focus piégé, reste inerte, défilement bloqué, focus rendu au déclencheur, `Escape` et clic sur le fond ferment **toujours**. Les pièces sont celles de `Dialog` sous le préfixe `Drawer` (`DrawerActions` : confirmation en dernier, 2.4.3). Croix de fermeture **par défaut** (`dismissible`, `dismissLabel`) : un panneau sans actions garde une sortie visible au pointeur et au toucher, pas seulement `Escape`. Pas de geste de balayage ni de physique de feuille. `id` pour `aria-controls` sur le déclencheur (`Navbar` : `menuControls`). Animation retirée sous `prefers-reduced-motion`. L’empilement n’est pas supporté ; une décision destructive reste un `Dialog` `alert`.
 
 ## Overlays — revue de PR
 
-Ces patterns s’appliquent dès qu’un Dialog, Menu, Popover ou Tooltip est proposé. Une PR qui les ignore n’est pas AA.
+Ces patterns s’appliquent dès qu’un Dialog, Drawer, Menu, Popover ou Tooltip est proposé. Une PR qui les ignore n’est pas AA.
 
 ### Focus
 
 | Widget              | Ouverture                                                                        | Fermeture                               |
 | ------------------- | -------------------------------------------------------------------------------- | --------------------------------------- |
-| Dialog / modal      | Premier focusable ; sur `alertdialog`, la **première action**                    | Restore sur le trigger                  |
+| Dialog / Drawer     | Premier focusable ; sur `alertdialog`, la **première action**                    | Restore sur le trigger                  |
 | Menu / context menu | Premier item (ou item actif)                                                     | Restore sur le trigger                  |
 | Popover             | Premier focusable **s’il contient des contrôles** ; sinon le trigger reste focus | Restore si le focus était à l’intérieur |
 | Tooltip             | **Ne prend pas** le focus. Le trigger reste focusable                            | —                                       |
@@ -73,7 +74,7 @@ Un overlay modal pose `aria-modal="true"` et piège le Tab **à l’intérieur**
 | ------------------- | ----------------------------------- | ------------------------ | ------ | ------------------------------------------------------ |
 | Button / IconButton | Entre / sort                        | Active                   | —      | —                                                      |
 | Link                | Entre / sort                        | Active (Enter)           | —      | —                                                      |
-| Dialog              | Cycle interne                       | Active le contrôle focus | Ferme  | —                                                      |
+| Dialog / Drawer     | Cycle interne                       | Active le contrôle focus | Ferme  | —                                                      |
 | Menu                | Sort du widget                      | Active l’item            | Ferme  | Haut / bas (et Home / End)                             |
 | Popover             | Vers le contenu s’il est focusable  | Selon le contrôle        | Ferme  | —                                                      |
 | Tooltip             | Reste sur le trigger                | —                        | Masque | —                                                      |

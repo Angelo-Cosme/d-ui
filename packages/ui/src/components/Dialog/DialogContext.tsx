@@ -43,7 +43,9 @@ export function useDialogContext(component: string): DialogContextValue {
   const context = useContext(DialogContext);
 
   if (!context) {
-    throw new Error(`<${component}> doit être rendu à l’intérieur de <Dialog>.`);
+    throw new Error(
+      `<${component}> doit être rendu à l’intérieur de <Dialog> ou <Drawer>.`,
+    );
   }
 
   return context;

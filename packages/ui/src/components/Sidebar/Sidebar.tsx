@@ -52,7 +52,7 @@ export type SidebarProps = HTMLAttributes<HTMLElement> & {
   size?: SidebarSize;
   /**
    * Panneau modal (petit écran). Escape et le fond ferment.
-   * Pas un `Drawer` (DS-038) : overlay de navigation uniquement.
+   * Pas un `Drawer` : overlay de navigation uniquement.
    */
   overlay?: boolean;
   open?: boolean;

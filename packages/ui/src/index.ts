@@ -159,6 +159,23 @@ export type {
 } from './components/CommandMenu/commandMenuItems';
 export { Divider } from './components/Divider/Divider';
 export type { DividerOrientation, DividerProps } from './components/Divider/Divider';
+export { Drawer } from './components/Drawer/Drawer';
+export type { DrawerProps, DrawerSide, DrawerSize } from './components/Drawer/Drawer';
+export {
+  DrawerActions,
+  DrawerBody,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from './components/Drawer/DrawerParts';
+export type {
+  DrawerActionsAlign,
+  DrawerActionsProps,
+  DrawerBodyProps,
+  DrawerDescriptionProps,
+  DrawerHeaderProps,
+  DrawerTitleProps,
+} from './components/Drawer/DrawerParts';
 export { Field } from './components/Field/Field';
 export type { FieldProps } from './components/Field/Field';
 export { FieldDescription } from './components/Field/FieldDescription';
