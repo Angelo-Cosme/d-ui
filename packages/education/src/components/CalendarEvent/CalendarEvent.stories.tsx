@@ -400,7 +400,16 @@ const sessions = timetable
 
 return (
     <>
-        <Calendar value={day} onValueChange={setDay} locale="fr" weekStartsOn={1} size="sm" />
+        <Calendar
+            value={day}
+            // \`onValueChange\` reçoit aussi une plage \`{ start, end }\` : on ne garde qu’une date.
+            onValueChange={(value) => {
+                if ('year' in value) setDay(value);
+            }}
+            locale="fr"
+            weekStartsOn={1}
+            size="sm"
+        />
         <section aria-labelledby="day-title">
             <h3 id="day-title">Séances du mercredi 18 mars</h3>
             <ol>
@@ -473,7 +482,16 @@ const week = weekdaysOf(day); // lundi → vendredi, calculé par l’app
 
 return (
     <>
-        <Calendar value={day} onValueChange={setDay} locale="fr" weekStartsOn={1} size="sm" />
+        <Calendar
+            value={day}
+            // \`onValueChange\` reçoit aussi une plage \`{ start, end }\` : on ne garde qu’une date.
+            onValueChange={(value) => {
+                if ('year' in value) setDay(value);
+            }}
+            locale="fr"
+            weekStartsOn={1}
+            size="sm"
+        />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.75rem' }}>
             {week.map((date) => (
                 <section key={calendarDateToIso(date)} aria-labelledby={\`day-\${calendarDateToIso(date)}\`}>
