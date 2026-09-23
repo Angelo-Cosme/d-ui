@@ -1,0 +1,96 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import { H2, H3, P, Ul } from '../../../../ui/.storybook/docs-i18n';
+import * as CalendarEventStories from './CalendarEvent.stories';
+
+<Meta of={CalendarEventStories} />
+
+# CalendarEvent
+
+<P k="calendarEvent.intro" />
+
+<P k="calendarEvent.install" />
+
+<P k="chrome.examplesFollow" />
+
+<Canvas of={CalendarEventStories.Default} />
+
+<H2 k="calendarEvent.types" />
+
+<P k="calendarEvent.typesBody" />
+
+<Canvas of={CalendarEventStories.Types} />
+
+<H2 k="calendarEvent.tokens" />
+
+<P k="calendarEvent.tokensBody" />
+
+<Canvas of={CalendarEventStories.TokenOverride} />
+
+<H2 k="calendarEvent.minimal" />
+
+<P k="calendarEvent.minimalBody" />
+
+<Canvas of={CalendarEventStories.Minimal} />
+
+<H2 k="calendarEvent.withLink" />
+
+<P k="calendarEvent.withLinkBody" />
+
+<Canvas of={CalendarEventStories.WithLink} />
+
+<H2 k="chrome.sizes" />
+
+<P k="calendarEvent.sizesBody" />
+
+<Canvas of={CalendarEventStories.Sizes} />
+
+<H2 k="calendarEvent.dayView" />
+
+<P k="calendarEvent.dayViewBody" />
+
+<Canvas of={CalendarEventStories.DayView} />
+
+<H2 k="calendarEvent.weekView" />
+
+<P k="calendarEvent.weekViewBody" />
+
+<Canvas of={CalendarEventStories.WeekView} />
+
+<H2 k="chrome.accessibility" />
+
+<P k="calendarEvent.a11yBody" />
+
+<H3 k="chrome.do" />
+
+<Ul items={['calendarEvent.doList', 'calendarEvent.doLabel', 'calendarEvent.doToken']} />
+
+<H3 k="chrome.dont" />
+
+<Ul
+  items={[
+    'calendarEvent.dontColor',
+    'calendarEvent.dontCalendar',
+    'calendarEvent.dontScheduler',
+  ]}
+/>
+
+<P k="chrome.themeLang" />
+
+<H2 k="chrome.properties" />
+
+<P k="calendarEvent.propsBody" />
+
+<ArgTypes
+  of={CalendarEventStories}
+  include={[
+    'title',
+    'course',
+    'location',
+    'type',
+    'typeLabel',
+    'start',
+    'end',
+    'size',
+    'className',
+  ]}
+/>

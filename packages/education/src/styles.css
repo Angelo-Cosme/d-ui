@@ -1,0 +1,102 @@
+/*
+ * CalendarEvent — couleur par type via jetons.
+ *
+ * Chaque type lit `--d-ui-edu-event-<type>` et retombe sur un jeton sémantique
+ * de `d-ui`. Le repli est résolu **sur l’élément**, pas sur `:root` : un alias
+ * posé sur `:root` figerait la palette claire et le thème sombre de
+ * `ThemeProvider` ne l’atteindrait jamais (même piège que `@theme inline`).
+ *
+ * `@layer components` : un utilitaire Tailwind de l’app (`className`) gagne
+ * toujours sur ces règles.
+ */
+@layer components {
+  .d-ui-edu-event {
+    --d-ui-edu-event-accent: var(--d-ui-edu-event-lecture, var(--d-ui-color-brand));
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+    border-inline-start: 4px solid var(--d-ui-edu-event-accent);
+    border-radius: var(--d-ui-radius-md);
+    background-color: color-mix(
+      in srgb,
+      var(--d-ui-edu-event-accent) 14%,
+      var(--d-ui-color-bg)
+    );
+    color: var(--d-ui-color-fg);
+    font-family: var(--d-ui-font-sans);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .d-ui-edu-event[data-type='tutorial'] {
+    --d-ui-edu-event-accent: var(--d-ui-edu-event-tutorial, var(--d-ui-color-info));
+  }
+
+  .d-ui-edu-event[data-type='lab'] {
+    --d-ui-edu-event-accent: var(--d-ui-edu-event-lab, var(--d-ui-color-success));
+  }
+
+  .d-ui-edu-event[data-type='exam'] {
+    --d-ui-edu-event-accent: var(--d-ui-edu-event-exam, var(--d-ui-color-danger));
+  }
+
+  .d-ui-edu-event[data-type='other'] {
+    --d-ui-edu-event-accent: var(--d-ui-edu-event-other, var(--d-ui-color-fg-muted));
+  }
+
+  .d-ui-edu-event > p {
+    margin: 0;
+  }
+
+  .d-ui-edu-event__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem 0.5rem;
+    color: var(--d-ui-color-fg-muted);
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .d-ui-edu-event__time {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .d-ui-edu-event__type {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--d-ui-color-fg);
+    font-weight: 500;
+  }
+
+  .d-ui-edu-event__dot {
+    flex-shrink: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background-color: var(--d-ui-edu-event-accent);
+  }
+
+  .d-ui-edu-event__title {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  .d-ui-edu-event__detail {
+    color: var(--d-ui-color-fg-muted);
+    overflow-wrap: anywhere;
+  }
+
+  .d-ui-edu-event--sm {
+    padding: 0.25rem 0.5rem;
+    border-inline-start-width: 3px;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+}

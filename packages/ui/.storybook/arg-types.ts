@@ -1946,3 +1946,44 @@ export const commandMenuArgTypes = {
     description: 'Classes du panneau du `Dialog`, fusionnées en dernier avec `cx`.',
   },
 };
+
+export const calendarEventArgTypes = {
+  title: {
+    control: 'text' as const,
+    description:
+      'Intitulé de la séance. Nomme l’`<article>` (`aria-labelledby`). Peut contenir un `Link` vers le détail.',
+  },
+  course: {
+    control: 'text' as const,
+    description: 'Cours ou matière (code, intitulé). Ligne omise si absent.',
+  },
+  location: {
+    control: 'text' as const,
+    description: 'Salle, amphi ou lien de visio. Ligne omise si absent.',
+  },
+  type: {
+    control: 'select' as const,
+    options: ['lecture', 'tutorial', 'lab', 'exam', 'other'],
+    description:
+      'Nature de la séance. Choisit la couleur via `--d-ui-edu-event-<type>`, avec repli sur un jeton `d-ui`. Défaut : `lecture`.',
+  },
+  typeLabel: {
+    control: 'text' as const,
+    description:
+      'Libellé visible du type : c’est lui qui porte le sens, pas la couleur (1.4.1). Fallback anglais (`Lecture`, `Tutorial`, `Lab`, `Exam`, `Event`) : une page française le passe toujours.',
+  },
+  start: {
+    control: 'text' as const,
+    description: 'Heure de début `HH:mm`, rendue dans un `<time dateTime>`.',
+  },
+  end: {
+    control: 'text' as const,
+    description: 'Heure de fin `HH:mm`. Ignorée sans `start`.',
+  },
+  size: {
+    control: 'inline-radio' as const,
+    options: ['sm', 'md'],
+    description: '`md` (défaut) pour une vue jour, `sm` pour une colonne de semaine.',
+  },
+  className: classNameArgType,
+};

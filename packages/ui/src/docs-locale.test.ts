@@ -49,7 +49,11 @@ import {
   tableDataCopy,
   imageCopy,
   commandMenuCopy,
+  calendarEventCopy,
 } from '../.storybook/docs-locale';
+
+/** Un seul Storybook documente `d-ui` et `d-ui-education` : mêmes règles. */
+const DOC_ROOTS = [join(process.cwd(), 'src'), join(process.cwd(), '../education/src')];
 
 /** English MDX headings that must not appear: docs default language is French. */
 const ENGLISH_HEADINGS = [
@@ -246,10 +250,11 @@ describe('docs locale', () => {
     expect(keysOf(tableDataCopy('fr'))).toEqual(keysOf(tableDataCopy('en')));
     expect(keysOf(imageCopy('fr'))).toEqual(keysOf(imageCopy('en')));
     expect(keysOf(commandMenuCopy('fr'))).toEqual(keysOf(commandMenuCopy('en')));
+    expect(keysOf(calendarEventCopy('fr'))).toEqual(keysOf(calendarEventCopy('en')));
   });
 
   it('writes MDX section headings in French', () => {
-    const files = collectMdx(join(process.cwd(), 'src'));
+    const files = DOC_ROOTS.flatMap((root) => collectMdx(root));
     expect(files.length).toBeGreaterThan(0);
     /*
      * `#{2,6}` et non `#{1,6}` : le `#` de tête est le **nom du composant**,
@@ -294,7 +299,7 @@ describe('docs locale', () => {
   });
 
   it('keeps MDX prose free of leftover English', () => {
-    const files = collectMdx(join(process.cwd(), 'src'));
+    const files = DOC_ROOTS.flatMap((root) => collectMdx(root));
     const phrases = [
       'high emphasis',
       'medium emphasis',
@@ -334,7 +339,7 @@ describe('docs locale', () => {
         else if (name.endsWith('.stories.tsx')) stories.push(path);
       }
     };
-    walk(join(process.cwd(), 'src'));
+    DOC_ROOTS.forEach(walk);
     const names = new Set<string>();
     for (const file of stories) {
       const text = readFileSync(file, 'utf8');
@@ -364,7 +369,7 @@ describe('docs locale', () => {
   });
 
   it('wires every MDX docs page to docs-i18n', () => {
-    const files = collectMdx(join(process.cwd(), 'src'));
+    const files = DOC_ROOTS.flatMap((root) => collectMdx(root));
     expect(files.length).toBeGreaterThan(0);
     for (const file of files) {
       const text = readFileSync(file, 'utf8');
@@ -388,7 +393,7 @@ describe('docs locale', () => {
         else if (name.endsWith('.stories.tsx')) stories.push(path);
       }
     };
-    walk(join(process.cwd(), 'src'));
+    DOC_ROOTS.forEach(walk);
     expect(stories.length).toBeGreaterThan(0);
     for (const file of stories) {
       const text = readFileSync(file, 'utf8');

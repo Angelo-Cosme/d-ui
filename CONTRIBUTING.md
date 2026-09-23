@@ -60,7 +60,7 @@ Un composant n’est pas fini sans :
 
 - Un module = un job. Pas d’abstraction « au cas où ».
 - Réutiliser tokens, `cx`, `ThemeProvider` plutôt que de recréer des couleurs ou des classNames.
-- Le domaine Education n’entre pas dans `d-ui`.
+- Le domaine Education n’entre pas dans `d-ui` : il vit dans `packages/education` (`d-ui-education`), qui compose `d-ui`.
 - HTML sémantique (`button`, `a`, `label`, `dialog`, …), nom accessible, clavier, focus visible — [docs/accessibility.md](./docs/accessibility.md) (WCAG 2.2 AA).
 - Toute option publique d’un composant a une story + un canvas MDX. La skill `.cursor/skills/pre-commit-review/SKILL.md` impose cette barre avant le commit.
 

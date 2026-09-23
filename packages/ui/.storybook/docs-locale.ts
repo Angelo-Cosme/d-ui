@@ -235,6 +235,12 @@ export const storyNameEn: Record<string, string> = {
   'Sans croix de fermeture': 'Without dismiss button',
   'Focus initial': 'Initial focus',
   'Navigation mobile': 'Mobile navigation',
+  'Types de séance': 'Session types',
+  'Couleur par jeton': 'Colour by token',
+  'Vue jour': 'Day view',
+  'Vue semaine': 'Week view',
+  'Contenu minimal': 'Minimal content',
+  'Avec lien': 'With a link',
 };
 
 const storyNameFr: Record<string, string> = Object.fromEntries(
@@ -866,6 +872,249 @@ export type CalendarDocsCopy = typeof calendarFr;
 
 export function calendarCopy(locale: DocsLocale): CalendarDocsCopy {
   return locale === 'en' ? calendarEn : calendarFr;
+}
+
+export type CalendarEventSession = {
+  /** `YYYY-MM-DD` */
+  date: string;
+  start: string;
+  end: string;
+  type: 'lecture' | 'tutorial' | 'lab' | 'exam' | 'other';
+  title: string;
+  course: string;
+  location: string;
+};
+
+const calendarEventSessionsFr: CalendarEventSession[] = [
+  {
+    date: '2026-03-16',
+    start: '08:00',
+    end: '10:00',
+    type: 'lecture',
+    title: 'Algorithmique',
+    course: 'INF-201',
+    location: 'Amphi A',
+  },
+  {
+    date: '2026-03-16',
+    start: '10:15',
+    end: '12:15',
+    type: 'tutorial',
+    title: 'Algorithmique — TD groupe 2',
+    course: 'INF-201',
+    location: 'Salle B12',
+  },
+  {
+    date: '2026-03-16',
+    start: '14:00',
+    end: '17:00',
+    type: 'lab',
+    title: 'Programmation web',
+    course: 'INF-214',
+    location: 'Salle machine 3',
+  },
+  {
+    date: '2026-03-17',
+    start: '08:00',
+    end: '10:00',
+    type: 'lecture',
+    title: 'Bases de données',
+    course: 'INF-205',
+    location: 'Amphi B',
+  },
+  {
+    date: '2026-03-17',
+    start: '13:00',
+    end: '15:00',
+    type: 'tutorial',
+    title: 'Mathématiques discrètes',
+    course: 'MAT-202',
+    location: 'Salle C04',
+  },
+  {
+    date: '2026-03-18',
+    start: '09:00',
+    end: '11:00',
+    type: 'exam',
+    title: 'Partiel d’algorithmique',
+    course: 'INF-201',
+    location: 'Amphi A',
+  },
+  {
+    date: '2026-03-18',
+    start: '14:00',
+    end: '16:00',
+    type: 'other',
+    title: 'Permanence de tutorat',
+    course: 'L2 Informatique',
+    location: 'Bibliothèque, 1er étage',
+  },
+  {
+    date: '2026-03-19',
+    start: '10:00',
+    end: '12:00',
+    type: 'lecture',
+    title: 'Réseaux',
+    course: 'INF-210',
+    location: 'Amphi B',
+  },
+  {
+    date: '2026-03-19',
+    start: '14:00',
+    end: '17:00',
+    type: 'lab',
+    title: 'Bases de données — TP',
+    course: 'INF-205',
+    location: 'Salle machine 1',
+  },
+  {
+    date: '2026-03-20',
+    start: '08:00',
+    end: '10:00',
+    type: 'tutorial',
+    title: 'Réseaux — TD',
+    course: 'INF-210',
+    location: 'Salle B08',
+  },
+];
+
+const calendarEventSessionsEn: CalendarEventSession[] = [
+  {
+    date: '2026-03-16',
+    start: '08:00',
+    end: '10:00',
+    type: 'lecture',
+    title: 'Algorithms',
+    course: 'INF-201',
+    location: 'Lecture hall A',
+  },
+  {
+    date: '2026-03-16',
+    start: '10:15',
+    end: '12:15',
+    type: 'tutorial',
+    title: 'Algorithms — tutorial group 2',
+    course: 'INF-201',
+    location: 'Room B12',
+  },
+  {
+    date: '2026-03-16',
+    start: '14:00',
+    end: '17:00',
+    type: 'lab',
+    title: 'Web programming',
+    course: 'INF-214',
+    location: 'Computer room 3',
+  },
+  {
+    date: '2026-03-17',
+    start: '08:00',
+    end: '10:00',
+    type: 'lecture',
+    title: 'Databases',
+    course: 'INF-205',
+    location: 'Lecture hall B',
+  },
+  {
+    date: '2026-03-17',
+    start: '13:00',
+    end: '15:00',
+    type: 'tutorial',
+    title: 'Discrete mathematics',
+    course: 'MAT-202',
+    location: 'Room C04',
+  },
+  {
+    date: '2026-03-18',
+    start: '09:00',
+    end: '11:00',
+    type: 'exam',
+    title: 'Algorithms midterm',
+    course: 'INF-201',
+    location: 'Lecture hall A',
+  },
+  {
+    date: '2026-03-18',
+    start: '14:00',
+    end: '16:00',
+    type: 'other',
+    title: 'Tutoring drop-in',
+    course: 'Year 2 Computer Science',
+    location: 'Library, 1st floor',
+  },
+  {
+    date: '2026-03-19',
+    start: '10:00',
+    end: '12:00',
+    type: 'lecture',
+    title: 'Networks',
+    course: 'INF-210',
+    location: 'Lecture hall B',
+  },
+  {
+    date: '2026-03-19',
+    start: '14:00',
+    end: '17:00',
+    type: 'lab',
+    title: 'Databases — lab',
+    course: 'INF-205',
+    location: 'Computer room 1',
+  },
+  {
+    date: '2026-03-20',
+    start: '08:00',
+    end: '10:00',
+    type: 'tutorial',
+    title: 'Networks — tutorial',
+    course: 'INF-210',
+    location: 'Room B08',
+  },
+];
+
+const calendarEventFr = {
+  typeLabels: {
+    lecture: 'Cours magistral',
+    tutorial: 'TD',
+    lab: 'TP',
+    exam: 'Examen',
+    other: 'Autre',
+  },
+  title: 'Algorithmique',
+  course: 'INF-201 · L2 Informatique',
+  location: 'Amphi A',
+  small: 'Petite',
+  medium: 'Moyenne',
+  customised: 'Examens en violet (jeton surchargé)',
+  openDetails: 'Algorithmique',
+  noSession: 'Aucune séance ce jour-là.',
+  sessionsOf: (day: string) => `Séances du ${day}`,
+  sessions: calendarEventSessionsFr,
+};
+
+const calendarEventEn: typeof calendarEventFr = {
+  typeLabels: {
+    lecture: 'Lecture',
+    tutorial: 'Tutorial',
+    lab: 'Lab',
+    exam: 'Exam',
+    other: 'Other',
+  },
+  title: 'Algorithms',
+  course: 'INF-201 · Year 2 Computer Science',
+  location: 'Lecture hall A',
+  small: 'Small',
+  medium: 'Medium',
+  customised: 'Exams in purple (token override)',
+  openDetails: 'Algorithms',
+  noSession: 'No session that day.',
+  sessionsOf: (day: string) => `Sessions on ${day}`,
+  sessions: calendarEventSessionsEn,
+};
+
+export type CalendarEventDocsCopy = typeof calendarEventFr;
+
+export function calendarEventCopy(locale: DocsLocale): CalendarEventDocsCopy {
+  return locale === 'en' ? calendarEventEn : calendarEventFr;
 }
 
 const imageFr = {

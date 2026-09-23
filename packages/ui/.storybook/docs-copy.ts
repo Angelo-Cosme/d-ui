@@ -2126,8 +2126,8 @@ export const docsCopy = {
       en: '`isDateUnavailable` + `minValue` / `maxValue` rather than removing days from the grid',
     },
     dontEvents: {
-      fr: 'Le rendu d’événements LMS — c’est DS-050, hors de `d-ui`',
-      en: 'LMS event rendering — that is DS-050, outside `d-ui`',
+      fr: 'Le rendu d’événements LMS — c’est `CalendarEvent`, dans `d-ui-education`',
+      en: 'LMS event rendering — that is `CalendarEvent`, in `d-ui-education`',
     },
     dontPicker: {
       fr: 'Un champ texte + overlay — c’est le DatePicker (DS-028), qui réutilisera `Calendar`',
@@ -2140,6 +2140,82 @@ export const docsCopy = {
     propsBody: {
       fr: '`value` / `onValueChange` pour un état contrôlé (`CalendarDate` ou `{ start, end }`). `selectionMode="range"` pour une plage. `today` pour figer « aujourd’hui » dans les tests. `name` / `nameEnd` posent des champs masqués `YYYY-MM-DD`.',
       en: '`value` / `onValueChange` for controlled state (`CalendarDate` or `{ start, end }`). `selectionMode="range"` for a range. `today` to freeze “today” in tests. `name` / `nameEnd` set hidden `YYYY-MM-DD` fields.',
+    },
+  },
+  calendarEvent: {
+    intro: {
+      fr: '`CalendarEvent` affiche une séance d’emploi du temps : intitulé, cours, lieu, horaire et type. Il vit dans `d-ui-education`, au-dessus de `d-ui` : `Calendar` reste une grille de dates générique, et ce n’est pas un agenda (pas de grille horaire, pas de glisser-déposer).',
+      en: '`CalendarEvent` shows a timetable session: title, course, location, time and type. It lives in `d-ui-education`, on top of `d-ui`: `Calendar` stays a generic date grid, and this is not a scheduler (no hour grid, no drag and drop).',
+    },
+    install: {
+      fr: "Importez la feuille du package après celle de `d-ui` : `import 'd-ui/styles.css'` puis `import 'd-ui-education/styles.css'`.",
+      en: "Import the package stylesheet after the `d-ui` one: `import 'd-ui/styles.css'` then `import 'd-ui-education/styles.css'`.",
+    },
+    types: { fr: 'Types de séance', en: 'Session types' },
+    typesBody: {
+      fr: '`type` choisit la couleur : `lecture` (cours magistral), `tutorial` (TD), `lab` (TP), `exam`, `other`. `typeLabel` écrit le type en toutes lettres : c’est ce texte qui porte le sens, la couleur ne fait que le doubler (WCAG 1.4.1). Sans `typeLabel`, un libellé anglais s’affiche — une page française le passe toujours.',
+      en: '`type` picks the colour: `lecture`, `tutorial`, `lab`, `exam`, `other`. `typeLabel` spells the type out: that text carries the meaning, colour only doubles it (WCAG 1.4.1). Without `typeLabel` an English label shows — a French page always passes it.',
+    },
+    tokens: { fr: 'Couleur par jeton', en: 'Colour by token' },
+    tokensBody: {
+      fr: 'Chaque type lit `--d-ui-edu-event-<type>` (`lecture`, `tutorial`, `lab`, `exam`, `other`) et retombe sinon sur un jeton de `d-ui` : `brand`, `info`, `success`, `danger`, `fg-muted`. Le thème sombre suit donc sans rien faire. Pour changer une couleur, posez le jeton sur un ancêtre — jamais un hex dans `className`.',
+      en: 'Each type reads `--d-ui-edu-event-<type>` (`lecture`, `tutorial`, `lab`, `exam`, `other`) and otherwise falls back to a `d-ui` token: `brand`, `info`, `success`, `danger`, `fg-muted`. Dark theme therefore follows for free. To change a colour, set the token on an ancestor — never a hex in `className`.',
+    },
+    minimal: { fr: 'Contenu minimal', en: 'Minimal content' },
+    minimalBody: {
+      fr: 'Seul `title` est obligatoire. Sans `course` ni `location`, les lignes disparaissent ; `start` sans `end` affiche l’heure de début seule. Sans `typeLabel`, le libellé anglais par défaut s’affiche (`Lecture`, `Tutorial`, `Lab`, `Exam`, `Event`) : une page française passe toujours `typeLabel`.',
+      en: 'Only `title` is required. Without `course` or `location`, those lines disappear; `start` without `end` shows the start time alone. Without `typeLabel`, the default English label shows (`Lecture`, `Tutorial`, `Lab`, `Exam`, `Event`): a French page always passes `typeLabel`.',
+    },
+    withLink: { fr: 'Avec lien', en: 'With a link' },
+    withLinkBody: {
+      fr: '`CalendarEvent` n’est pas interactif. Pour ouvrir le détail d’une séance, mettez un `Link` de `d-ui` dans `title` : c’est le seul élément focalisable, l’`<article>` garde le texte du lien comme nom, et le focus visible est celui de `Link`. Ne rendez pas toute la carte cliquable.',
+      en: '`CalendarEvent` is not interactive. To open a session’s details, put a `d-ui` `Link` in `title`: it is the only focusable element, the `<article>` keeps the link text as its name, and the visible focus is `Link`’s own. Do not make the whole card clickable.',
+    },
+    sizesBody: {
+      fr: '`md` (défaut) pour une vue jour, où la séance a la largeur. `sm` pour une colonne de semaine.',
+      en: '`md` (default) for a day view, where the session has room. `sm` for a week column.',
+    },
+    dayView: { fr: 'Vue jour', en: 'Day view' },
+    dayViewBody: {
+      fr: '`Calendar` choisit le jour, une liste ordonnée (`<ol>`) donne ses séances dans l’ordre chronologique. L’app filtre ses données ; ni `Calendar` ni `CalendarEvent` ne connaissent l’autre.',
+      en: '`Calendar` picks the day, an ordered list (`<ol>`) gives its sessions in chronological order. The app filters its data; neither `Calendar` nor `CalendarEvent` knows about the other.',
+    },
+    weekView: { fr: 'Vue semaine', en: 'Week view' },
+    weekViewBody: {
+      fr: 'Même composition, une colonne par jour ouvré de la semaine choisie. Chaque colonne est une `<section>` titrée par son jour, avec sa liste. Les séances s’empilent dans l’ordre : pas de positionnement à l’heure, c’est le travail d’un agenda, hors périmètre.',
+      en: 'Same composition, one column per weekday of the chosen week. Each column is a `<section>` headed by its day, with its list. Sessions stack in order: no hour positioning — that is a scheduler’s job, out of scope.',
+    },
+    a11yBody: {
+      fr: 'La racine est un `<article>` nommé par son intitulé (`aria-labelledby`) : un lecteur d’écran annonce « article, Algorithmique ». Les heures sont des `<time dateTime>`. Le point de couleur est décoratif (`aria-hidden`) ; le type est écrit. L’élément n’est pas interactif : pour ouvrir le détail, l’app met un `Link` dans `title`.',
+      en: 'The root is an `<article>` named by its title (`aria-labelledby`): a screen reader announces “article, Algorithms”. Times are `<time dateTime>`. The colour dot is decorative (`aria-hidden`); the type is written out. The item is not interactive: to open details, the app puts a `Link` in `title`.',
+    },
+    doList: {
+      fr: 'Envelopper les séances d’un jour dans `<ol>` / `<li>`, triées par heure',
+      en: 'Wrap a day’s sessions in `<ol>` / `<li>`, sorted by time',
+    },
+    doLabel: {
+      fr: 'Passer `typeLabel` dans la langue de la page',
+      en: 'Pass `typeLabel` in the page language',
+    },
+    doToken: {
+      fr: 'Changer une couleur de type par `--d-ui-edu-event-<type>`',
+      en: 'Change a type colour with `--d-ui-edu-event-<type>`',
+    },
+    dontColor: {
+      fr: 'Un type signalé par la couleur seule, sans libellé',
+      en: 'A type shown by colour alone, with no label',
+    },
+    dontScheduler: {
+      fr: 'Un agenda complet (grille horaire, glisser-déposer, synchro Google Calendar) — hors de DS-050',
+      en: 'A full scheduler (hour grid, drag and drop, Google Calendar sync) — outside DS-050',
+    },
+    dontCalendar: {
+      fr: 'Des événements dans les cellules de `Calendar` : la grille reste générique',
+      en: 'Events inside `Calendar` cells: the grid stays generic',
+    },
+    propsBody: {
+      fr: 'Les attributs natifs (`id`, `data-*`, `aria-*`) passent sur l’`<article>`. `className` s’ajoute à la fin.',
+      en: 'Native attributes (`id`, `data-*`, `aria-*`) go to the `<article>`. `className` is appended last.',
     },
   },
   image: {
